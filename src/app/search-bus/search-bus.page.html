@@ -1,0 +1,34 @@
+<ion-header>
+	<ion-toolbar color="primary">
+  		<ion-buttons slot="start">
+      		<ion-menu-button></ion-menu-button>
+    	</ion-buttons>
+    	<ion-title>{{currentLocation || "Search Bus" }}</ion-title>
+  	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)" novalidate="">
+	    <ion-item>
+			<ion-label color="primary" position="stacked">From</ion-label>
+			<ion-input type="text" id="from" placeholder="From" name="from" [formControl]="complexForm.controls['from']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['from'].valid && complexForm.controls['from'].touched}" placeholder="From City"></ion-input>
+	    </ion-item>
+	  
+	    <ion-item>
+			<ion-label color="primary" position="stacked">To</ion-label>
+			<ion-input type="text" id="to" placeholder="To" name="to" [formControl]="complexForm.controls['to']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['to'].valid && complexForm.controls['to'].touched}" placeholder="To City"></ion-input>
+	    </ion-item>
+
+	    <ion-row style="height: 30px"></ion-row>
+
+	    <ion-button color="secondary" expand="full" type="submit">
+	      <ion-icon name="search" slot="start"></ion-icon>
+	      Search Buses
+	    </ion-button>
+	</form>
+</ion-content>
+<ion-footer>
+	<ion-button fill="clear">
+		<ion-icon slot="icon-only" name="star"></ion-icon>
+	</ion-button>
+</ion-footer>

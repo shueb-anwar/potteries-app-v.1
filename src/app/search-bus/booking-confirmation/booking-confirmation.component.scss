@@ -1,0 +1,53 @@
+$gray: #dedede;
+
+app-booking-confirmation {
+	ion-content {
+        --background-color: #f2f2f2 !important
+    }
+
+    .icon {
+        &[name='bus'] {
+            font-size: 50px;
+        }
+    }
+
+}
+
+.table {
+    text-align: left;
+    margin-bottom: 30px;
+    background-color: #fff;
+
+    ion-row {
+        border-bottom: 1px solid #e3e3e3;
+
+        &.head {
+            border-width: 2px;
+
+            ion-col {
+                font-weight: bold;
+            }
+        }
+
+        &:last-child {
+            border-width: 0
+        }
+    }
+
+    ion-col {
+        padding: 10px 5px;
+    }
+}
+
+.content-center {
+    padding: 50px 15px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    > div {
+        width: 100%;
+    }
+}

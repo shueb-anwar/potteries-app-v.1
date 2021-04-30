@@ -1,0 +1,23 @@
+ion-list {
+	padding-top: 0 !important;
+}
+
+ion-list-header {
+	background-color: var(--ion-color-light);
+}
+
+.multi-button {
+	box-shadow: none;
+	border-radius: 0;
+	border-bottom: 1px solid #e3e3e3;
+	margin: 0;
+
+	ion-card-header,
+	ion-card-content {
+		padding-bottom: 5px;
+	}
+
+	ion-card-header {
+		padding-top: 5px;
+	}
+}

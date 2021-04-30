@@ -1,0 +1,33 @@
+<ion-header>
+	<ion-toolbar color="primary">
+  		<ion-buttons slot="start">
+      		<ion-menu-button></ion-menu-button>
+    	</ion-buttons>
+    	<ion-title>Profile</ion-title>
+  	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+	    <ion-list-header>
+	    	<ion-label>My Booking History</ion-label>
+	    </ion-list-header>
+	    <ion-item *ngFor="let item of bookings; let i = index" color="{{getColor(item.status)}}">
+	    	<div class="bus-detail">
+	    		<p>{{ item.date | date: 'longDate' }}, {{item.time | militaryTime }}</p>
+	    		<div class="route">
+		    		<p>From: {{ item.from }}</p>
+		    		<p>To: {{ item.to }}</p>
+		    	</div>
+	    		<ion-chip *ngFor="let passenger of item.passengers; let i = index" color="tertiary">
+	    			<ion-icon name="contact" color="tertiary"></ion-icon>
+	    			<ion-label>{{ passenger.name }}</ion-label>
+				</ion-chip>
+	    	</div>
+
+	    	<ion-button fill="outline" slot="end" (click)="moreDetail(item.index)">
+	    		<ion-icon name="more" slot="start"></ion-icon>
+	    		Bus Detail</ion-button>
+	    </ion-item>
+	  </ion-list>
+</ion-content>

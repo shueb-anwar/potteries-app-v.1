@@ -1,0 +1,52 @@
+ion-menu {
+  ion-content,
+  ion-item {
+    --background: var(--ion-color-secondary);
+  }
+
+  ion-content {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+  }
+
+  ion-list {
+    background: var(--ion-color-secondary);
+  }
+
+  ion-list-header,
+  ion-item {
+    --color: #fff;
+    --padding-start: 10px;
+    --padding-end: 10px;
+
+    &.username {
+      --background: var(--ion-color-primary);
+    }
+
+    &.selected {
+      --color: var(--ion-color-primary);
+      --background: rgba(var(--ion-color-primary-rgb), 0.14);
+
+      ion-icon {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    ion-label {
+      font-weight: 500;
+    }
+
+    ion-button {
+      color: var(--ion-color-primary);
+      font-size: 1.1rem;
+    }
+
+    ion-icon {
+      --font-size: 2.2rem;
+      --background: var(--ion-color-primary);
+      color: #fff;
+    }
+  }
+} 

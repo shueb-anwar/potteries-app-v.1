@@ -1,0 +1,51 @@
+<ion-header>
+  	<ion-toolbar color="primary">
+  		<!-- <ion-buttons slot="start">
+  			<ion-back-button defaultHref="search-bus"></ion-back-button>
+		</ion-buttons> -->
+    	<ion-title>Confirmation</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="content-center" *ngIf="TXT_STATUS == 'TXN_FAILURE'">
+		<div>
+			<img src="/assets/imgs/tourlin-icon.svg" style="width: 150px" />
+			<h3>Transation failed</h3>
+			<p>{{ RESPMSG }}</p>
+		</div>
+	</div>
+	<div class="content-center" *ngIf="bus">
+		<div>
+			<img src="/assets/imgs/tourlin-icon.svg" style="width: 150px" />
+			<h3>Awesome</h3>
+			<p>Your Booking has been Confirmed!</p>
+
+			<ion-grid class="table">
+				<ion-row class="head">
+					<ion-col size="2">S.</ion-col>
+					<ion-col size="8">Passanger Name</ion-col>
+					<ion-col size="2">#Seat</ion-col>
+				</ion-row>
+				<ion-row *ngFor="let passenger of bus.passengers; let i = index">
+					<ion-col size="2">{{i+1}}</ion-col>
+					<ion-col size="8">{{passenger.name}}</ion-col>
+					<ion-col size="2">{{passenger.seat}}</ion-col>
+				</ion-row>
+			</ion-grid>	
+		</div>
+	</div>
+</ion-content>
+
+<ion-footer>
+	<ion-button outline icon-start color="primary" expand="full" [routerDirection]="'root'" [routerLink]="['/search-bus']">
+		<ion-icon name="search" slot="start" *ngIf="bus"></ion-icon>
+		<ion-icon name="refresh" slot="start" *ngIf="!bus"></ion-icon>
+		{{ bus ? 'Plan another trip' : 'Replan trip'}}
+	</ion-button>
+	
+	<ion-button outline icon-start color="secondary" expand="full" [routerDirection]="'root'" [routerLink]="['/user-profile/bookings']">
+		<ion-icon name="apps" slot="start"></ion-icon>
+		Manage Bookings
+	</ion-button>
+</ion-footer>

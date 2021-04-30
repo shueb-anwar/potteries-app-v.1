@@ -1,0 +1,26 @@
+<!-- <ion-header [translucent]="true">
+	<ion-toolbar>
+	  <ion-title>Enter Mobile to Continue</ion-title>
+	</ion-toolbar>
+</ion-header>   -->
+<ion-content color="primary" [fullscreen]="true">
+	<div id="sign-in-button"></div>
+	<div class="logo">
+	    <img src="./assets/imgs/tourlin-icon.svg" width="100" />    
+	</div>
+	<h1>Enter mobile number to get started</h1>
+	<form [formGroup]="complexForm" novalidate="">
+	    <ion-item>
+	      <ion-input type="number" id="mobile" placeholder="Mobile" name="mobile" [formControl]="complexForm.controls['mobile']" autocomplete="off"></ion-input>
+	    </ion-item>
+	    <ion-button expand="block" color="secondary" (click)="submitForm()">
+			Submit <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" slot="end"></ion-icon>
+	    </ion-button>
+	    
+	    <div id="recaptcha-container"></div>
+	</form>
+</ion-content>
+
+<ion-footer>
+	
+</ion-footer>

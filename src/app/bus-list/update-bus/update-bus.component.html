@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+    <ion-title>Update Bus Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<form [formGroup]="complexForm" novalidate="">
+	    <ion-item>
+	      <ion-label color="primary" position="stacked">Driver Name</ion-label>
+	      <ion-input type="text" id="name" placeholder="Enter Driver Name" name="name" [formControl]="complexForm.controls['name']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['name'].valid && complexForm.controls['name'].touched}" placeholder="Driver Name"></ion-input>
+	    </ion-item>
+	    <ion-item>
+	      <ion-label color="primary" position="stacked">Contact Number</ion-label>
+	      <ion-input type="text" id="contact" placeholder="Contact Number" name="contact" [formControl]="complexForm.controls['contact']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['contact'].valid && complexForm.controls['contact'].touched}" placeholder="Contact Number"></ion-input>
+	    </ion-item>
+	    <ion-item>
+	      <ion-label color="primary" position="stacked">Registration Number</ion-label>
+	      <ion-input type="text" id="registration" placeholder="Enter Registration" name="registration" [formControl]="complexForm.controls['registration']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['registration'].valid && complexForm.controls['registration'].touched}" placeholder="Registration NUmber"></ion-input>
+	    </ion-item>
+	    <ion-item>
+	      <ion-label color="primary" position="stacked">Fare</ion-label>
+	      <ion-input type="number" id="fare" placeholder="Enter Fare Detail" name="registration" [formControl]="complexForm.controls['fare']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['fare'].valid && complexForm.controls['fare'].touched}"></ion-input>
+	    </ion-item>
+	    <ion-item>
+	      <ion-label color="primary" position="stacked">Seating Capacity</ion-label>
+	      <ion-input type="number" id="capacity" placeholder="Enter Seating Capacity" name="registration" [formControl]="complexForm.controls['capacity']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['capacity'].valid && complexForm.controls['capacity'].touched}"></ion-input>
+	    </ion-item>
+	    
+	    <ion-list formArrayName="routeDetail">
+	      <ion-list-header>
+	        Bus Route Detail
+	      </ion-list-header>
+	      <div *ngFor="let line_item of complexForm.controls.routeDetail.controls; let i=index">
+	        <ion-grid [formGroupName]= "i">
+	          <ion-row>
+	            <ion-col>
+	              <ion-row>
+	                <ion-col>
+	                  <!-- <ion-input type="text" formControlName="id" value="{{i+1}}"></ion-input> -->
+	                  <ion-item>
+	                    <ion-label color="primary" position="stacked">From</ion-label>
+	                    <ion-input type="text" id="from" placeholder="From" formControlName="from" [ngClass]="{'is-invalid':(!line_item.controls['from'].valid && line_item.controls['from'].touched) }" placeholder="City"></ion-input>
+	                  </ion-item>
+	                </ion-col>
+	                <ion-col>
+	                  <ion-item>
+	                    <ion-label color="primary" position="stacked">To</ion-label>
+	                    <ion-input type="text" id="to" placeholder="To" formControlName="to" [ngClass]="{'is-invalid':!line_item.controls['to'].valid && line_item.controls['to'].touched}" placeholder="City"></ion-input>
+	                  </ion-item>
+	                </ion-col>
+	              </ion-row>
+	              <ion-row>
+	                <ion-col>
+	                  <ion-item>
+	                    <ion-label>Start Time</ion-label>
+	                    <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" name="t1" autocomplete="off" formControlName="time" [ngClass]="{'is-invalid':!line_item.controls['time'].valid && line_item.controls['time'].touched}"></ion-datetime>
+	                  </ion-item>
+	                </ion-col>
+	              </ion-row>
+	            </ion-col>
+	            <ion-col size="2" *ngIf="complexForm.controls.routeDetail.controls.length > 1">
+	              	<ion-button color="tertiary" fill="outline" (click)="removeRoute(i)">
+	                	<ion-icon name="close" slot="icon-only"></ion-icon>
+	              	</ion-button>
+	            </ion-col>
+	          </ion-row>
+	        </ion-grid>
+	      </div>
+	    </ion-list>
+	    <div class="card-body" style="padding-top: 0">
+	      <ion-button fill="clear" (click)="addRoute()">Add Route</ion-button>
+	    </div>
+	    <ion-button expand="full" (click)="submitForm(complexForm)">Submit</ion-button>
+	</form>
+</ion-content>

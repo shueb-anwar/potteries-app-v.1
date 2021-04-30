@@ -1,0 +1,50 @@
+<ion-header>
+  	<ion-toolbar color="primary">
+  		<ion-buttons slot="start">
+  			<ion-back-button defaultHref="search-bus"></ion-back-button>
+		</ion-buttons>
+    	<ion-title>Select bus to Continue</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-list-header>
+			<div>
+				{{ route.from }}
+				<ion-icon name="arrow-round-forward"></ion-icon>
+				{{ route.to }}
+			</div>
+		</ion-list-header>
+		<ion-card *ngIf="result && buses.length == 0">
+			<ion-card-header>
+				<ion-card-subtitle>Ooops!</ion-card-subtitle>
+				<ion-card-title>No Buses Found</ion-card-title>
+			</ion-card-header>
+
+			<ion-card-content>
+				<p>We can not find any buses on the selected routes. Please make sure you have spelled correctly.</p>
+				<br>
+				<ion-button color="secondary">
+					<ion-icon name="search" slot="start"></ion-icon> Modify Search
+				</ion-button>
+			</ion-card-content>
+		</ion-card>
+		<ion-card *ngFor="let item of buses" class="multi-button">
+		  <ion-card-header>
+		    <ion-card-title>{{ item.name }}  <small>{{ item.registration}}</small></ion-card-title>
+		    <ion-card-subtitle>{{ item.selectedRoute.time | militaryTime }}, Fare: Rs.{{ item.fare }}</ion-card-subtitle>
+		  </ion-card-header>
+
+		  <ion-card-content>
+		    <ion-button fill="outline" color="secondary" size="small" (click)="callDriver(item.contact)">
+				<ion-icon name="call" slot="start"></ion-icon> Call Driver
+			</ion-button>
+
+			<ion-button color="tertiary" size="small" (click)="bookBus(item)">
+				<ion-icon name="checkmark" slot="start"></ion-icon> Book Now
+			</ion-button>
+		  </ion-card-content>
+		</ion-card>
+	</ion-list>
+</ion-content>

@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close </ion-button>
+    </ion-buttons>
+    <ion-title>Bus Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list *ngIf="bus">
+	    <ion-list-header>
+	      <ion-icon name="bus" slot="end"></ion-icon> Bus Detail
+	    </ion-list-header>
+	    <ion-item >
+	    	<ion-icon name="person" slot="end"></ion-icon>
+	    	<ion-label text-wrap>
+	    		<ion-text color="primary">
+	    			<h3>Driver Name</h3>
+	    		</ion-text>
+	    		<p>{{bus.name}}</p>
+		    </ion-label>
+	    </ion-item>
+	    <ion-item >
+	      	<ion-icon name="document" slot="end"></ion-icon>
+	      	<ion-label text-wrap>
+	    		<ion-text color="primary">
+	    			<h3>Registration Numbner</h3>
+	    		</ion-text>
+	    		<p>{{bus.registration}}</p>
+		    </ion-label>
+	    </ion-item>
+	    <ion-item >
+	      <ion-icon name="call" slot="end"></ion-icon>
+	      	<ion-label text-wrap>
+	    		<ion-text color="primary">
+	    			<h3>Contact Number</h3>
+	    		</ion-text>
+	    		<p>{{bus.contact}}</p>
+		    </ion-label>
+	    </ion-item>
+	    <ion-item >
+	      <ion-icon name="cash" slot="end"></ion-icon>
+	      	<ion-label text-wrap>
+	    		<ion-text color="primary">
+	    			<h3>Fare</h3>
+	    		</ion-text>
+	    		<p>{{bus.fare}}</p>
+		    </ion-label>
+	    </ion-item>
+	  </ion-list>
+	  <ion-list>
+	    <ion-list-header>
+	      Bus Route Detail
+	    </ion-list-header>
+	    <div *ngFor="let route of bus.routeDetail; let i=index">
+	    	<ion-item>
+	    		<ion-icon name="time" slot="end"></ion-icon>
+
+	    		<ion-label text-wrap>
+		    		<ion-text color="primary">
+		    			<h3>{{route.from}} - {{route.to}}</h3>
+		    		</ion-text>
+		    		<p>{{route.time}}</p>
+			    </ion-label>
+	    	</ion-item>
+	    </div>
+	  </ion-list>
+	  <ion-button expand="full" color="danger">Book Your Seat Now</ion-button>
+</ion-content>

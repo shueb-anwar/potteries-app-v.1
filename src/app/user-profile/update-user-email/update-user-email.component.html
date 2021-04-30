@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close </ion-button>
+    </ion-buttons>
+    <ion-title>Update Name</ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content>
+  <div *ngIf="email && !varified">
+    <h2>Email Id is not varified!</h2>
+    <p>Please confirm verify to continue</p>
+    <ion-button (click)="varifyEmail()" color="danger" expand="full" *ngIf="!varified">Verify Email</ion-button>
+    <ion-button (click)="email = null" color="primary" expand="full" *ngIf="!varified">Edit Email</ion-button>
+  </div>
+
+  <form [formGroup]="complexForm" novalidate="" *ngIf="(email && varified) || !email">
+    <ion-item>
+      <ion-label color="primary" position="stacked">Email</ion-label>
+      <ion-input type="email" id="email" name="email" [formControl]="complexForm.controls['email']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['email'].valid && complexForm.controls['email'].touched}" placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-button expand="block" (click)="submitForm(complexForm)">Submit</ion-button>
+  </form>
+</ion-content>
+
+
+

@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>Merchant Check Out Page</title>
+    </head>
+    <body>
+        <center><h1>Please do not refresh this page...</h1></center>
+        <form method="post" action="http://tour-paytm-checksumhash-tour-checksumhash.1d35.starter-us-east-1.openshiftapps.com/processTransaction" name="f1">
+            <table border="1">
+                <tbody>
+                    <input type="hidden" name="MID" value="">
+                    <input type="hidden" name="WEBSITE" value="">
+                    <input type="hidden" name="ORDER_ID" value="">
+                    <input type="hidden" name="CUST_ID" value="">
+                    <input type="hidden" name="MOBILE_NO" value="">
+                    <input type="hidden" name="EMAIL" value="">
+                    <input type="hidden" name="INDUSTRY_TYPE_ID" value="">
+                    <input type="hidden" name="CHANNEL_ID" value="">
+                    <input type="hidden" name="TXN_AMOUNT" value="">
+                    <input type="hidden" name="CALLBACK_URL" value="">
+                </tbody>
+            </table>
+        <script type="text/javascript">
+        	function getUrlParameter(name) {
+			    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+			    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+			    var results = regex.exec(location.search);
+			    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+			};
+
+			var form = document.f1;
+
+			form.MID.value = getUrlParameter('MID');
+			form.WEBSITE.value = getUrlParameter('WEBSITE');
+			form.ORDER_ID.value =  getUrlParameter('ORDER_ID');
+			form.CUST_ID.value = getUrlParameter('CUST_ID');
+			form.MOBILE_NO.value = getUrlParameter('MOBILE_NO');
+			form.EMAIL.value = getUrlParameter('EMAIL');
+			form.INDUSTRY_TYPE_ID.value = getUrlParameter('INDUSTRY_TYPE_ID');
+			form.CHANNEL_ID.value = getUrlParameter('CHANNEL_ID');
+			form.TXN_AMOUNT.value = getUrlParameter('TXN_AMOUNT');
+			form.CALLBACK_URL.value = getUrlParameter('CALLBACK_URL');
+			// console.log(getUrlParameter('CHECKSUMHASH'));
+            
+            form.submit();
+        </script>
+        </form>
+    </body>
+</html>

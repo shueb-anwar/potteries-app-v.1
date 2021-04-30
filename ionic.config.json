@@ -1,0 +1,7 @@
+{
+  "name": "tourlin-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

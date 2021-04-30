@@ -1,0 +1,245 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+$colors: (
+  primary:    #283851,
+  secondary:  #32db64,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  twitter: (
+    base: #55acee,
+    contrast: #ffffff
+  )
+);
+
+$primary: #283851;
+$theme: #233246;
+$secondary: #00c4b6;
+
+$color-hover-percent: 5%;
+$color-active-percent: 7%;
+
+$gray-mine-shaft: #333;
+$gray-ship: #414042;
+$gray-dove: #666;
+$gray-dusty: #999;
+$gray-alto: #d9d9d9;
+$gray-concrete: #f2f2f2;
+$gray-concrete__hover: darken($gray-concrete, $color-hover-percent);
+
+// #e5e5e5
+$gray-concrete__active: darken($gray-concrete, $color-active-percent);
+
+html {
+  // font-size: 62.5%
+}
+
+.fira-sans {
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.raleway {
+  font-family: 'Raleway', sans-serif;
+}
+
+.button{
+  --border-radius: 2px;
+}
+
+.button-small {
+  font-size: 11px !important;
+}
+
+.button-outline{
+  --border-width: 1px
+}
+
+.alert-wrapper {
+  .lg & {
+    --width: 100%;
+    --max-width: initial;
+    margin: 0px 40px;  
+  }
+}
+
+ion-split-pane {
+  --border: none !important;
+}
+
+ion-menu {
+  .profile-thumb {
+    display: block;
+    position: relative;
+    width: 120px;
+    margin: 25px auto 0;
+    text-align: center;
+  }
+
+  [name="person-circle-outline"],
+  .button,
+  .profile-image {
+    margin: 0 auto;
+    display: block;
+  }
+
+  [name="person-circle-outline"],
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    color: var(--ion-color-primary);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  ion-icon[name='camera'] {
+    width: 3rem;
+    height: 3rem;
+    line-height: 2.8rem;
+    color: #fff;
+    font-size: 1.6rem;
+    border-radius: 2rem;
+    background-color: $primary;
+    border: 1px solid $secondary;
+    color: $secondary;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    top: -20px;
+  }
+
+  .item {
+    .icon {
+      &[name=mail],
+      &[name=apps],
+      &[name=person],
+      &[name=bus],
+      &.ion-ios-arrow-forward {
+        font-size: 2.2rem;
+        color: $secondary;
+      }
+    }
+
+    p, span {
+      @extend .fira-sans;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    span.label {
+      display: block;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .item-inner {
+      border-bottom: none !important;
+    }
+  }
+}
+
+otp-screen {
+  text-align: center;
+
+  .content {
+    background-color: $primary;
+  }
+
+  .item {
+    background-color: transparent;
+    padding-right: 16px;
+  }
+
+  .text-input {
+    text-align: center;
+    color: #fff;
+  }
+
+  .card {
+    // background: url("../assets/img/question-bg.png") no-repeat top center;
+    background-size: 100% auto;
+    border-radius: 0;
+    width: 100%;
+    box-shadow: none;
+    margin: 15px 0 0;
+    padding: 40px 0 20px;
+    margin-top: 45px;
+
+    img {
+      width: 70%;
+      margin: 0 auto;
+    }
+
+    h2 {
+      color: $gray-concrete;
+      font-size: 2.2rem;
+      padding: 0px 10px;
+      font-weight: 300;
+      margin-top: 20px;
+
+      @extend .raleway;
+    }
+
+    p {
+      font-size: 1.4rem;
+      color: $gray-concrete;
+
+      @extend .raleway;
+    }
+  }
+
+  .input-has-focus,
+  .input-has-value {
+    .item-inner {
+      border-bottom-color: $secondary !important;
+    }
+  }
+
+  .input.ng-invalid.ng-touched {
+    background-color: transparent;
+  }
+}
+
+.multi-button {
+  .item-inner {
+    display: block;
+  }
+}
+
+.center {
+  .scroll-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}

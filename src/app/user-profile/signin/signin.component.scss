@@ -1,0 +1,35 @@
+app-signin {
+	ion-content {
+		--padding-start: 20px;
+		--padding-end: 20px;
+		text-align: center;
+	}
+
+	.logo {
+		padding: 25px;
+		text-align: center;
+		margin: 50px 0 30px
+	}
+
+	h1 {
+		margin: 20px;
+	}
+
+	ion-item {
+		--border-radius: 30px;
+		text-align: center;
+		--highlight-height: 0;
+	}
+
+	.item-highlight {
+		height: 0
+	}
+
+	.button {
+		margin-left: 0;
+		margin-right: 0;
+		margin-top: 20px;
+		height: 49px;
+		--border-radius: 30px;
+	}
+}

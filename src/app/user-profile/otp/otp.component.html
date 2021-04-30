@@ -1,0 +1,24 @@
+<!-- <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Enter OTP</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+ --> 
+<ion-content padding color="primary">
+  <form #form="ngForm" (ngSubmit)="submit(form)" novalidate>
+    <img src="/assets/imgs/otp.png" />
+    <h1>Enter OTP</h1>
+    <p>OTP has been sent to your mobile {{encryptedMobile}},<br>Please enter the same here to continue.</p>
+    <p *ngIf="timerValue">00.{{timerValue > 9 ? timerValue : '0'+timerValue}}</p>
+    
+    <ion-item>
+      <ion-input type="number" [(ngModel)]="otp" name="otp" required placeholder="Enter OTP"></ion-input>
+    </ion-item>
+
+    <ion-button color="secondary" type="submit" expand="block" slot="end" >
+      Confirm
+      <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
+    </ion-button>
+  </form>
+</ion-content>

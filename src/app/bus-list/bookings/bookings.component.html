@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close </ion-button>
+    </ion-buttons>
+    <ion-title>Booking</ion-title>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content padding>
+  <form [formGroup]="complexForm" novalidate="">
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-datetime display-format="DD MMM, YYYY" picker-format="YYYY-MM-DD" min="{{lastmonth}}" max="{{tomorrow}}" name="t1" autocomplete="off" formControlName="date" [ngClass]="{'is-invalid':!complexForm.controls['date'].valid && complexForm.controls['date'].touched}"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Route</ion-label>
+      <ion-select formControlName="route" #mySelect interface="alert" [interfaceOptions]="customAlertOptions" ok-text="Select" value="{{this.bus.routeDetail[0].id}}">
+        <ion-select-option *ngFor="let route of bus.routeDetail; let i=index" value="{{route.id}}">{{route.from}} to {{route.to }} @ {{route.time}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-searchbar
+      [(ngModel)]="myInput"
+      (ionInput)="getItems($event)"
+      [showCancelButton]="true" [ngModelOptions]="{standalone: true}">
+    </ion-searchbar>
+    <ion-grid>
+      <ion-row class="head">
+        <ion-col size="2">S.</ion-col>
+        <ion-col size="8">Passanger Name</ion-col>
+        <ion-col size="2">#Seat</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let passenger of data; let i = index">
+        <ion-col size="2">{{i+1}}</ion-col>
+        <ion-col size="8">{{passenger.name}}</ion-col>
+        <ion-col size="2">{{passenger.seat}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+
+

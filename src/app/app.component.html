@@ -1,0 +1,47 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+        <div class="profile-thumb" menuClose (click)="openPage('userProfile')">
+          <ion-icon name="person-circle-outline"></ion-icon>
+
+        <!-- <ion-icon name="camera"></ion-icon> -->
+        </div>
+        <ion-list id="inbox-list">
+          <ion-menu-toggle auto-hide="false">
+            <ion-item class="username" *ngIf="!user.displayName">
+              <h2>{{ user.phoneNumber }}</h2>
+              <ion-button fill="clear" slot="end" (click)="openPage('userProfile')">
+                <ion-icon name="create" slot="start"></ion-icon>
+                Set Display Name
+              </ion-button>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item class="username" *ngIf="user.displayName">
+              <div>
+                <h2>{{ user.displayName}}</h2>
+                <span class="label">{{ user.phoneNumber }}</span>
+              </div>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item lines="none" detail="false" (click)="logout()">
+              <ion-icon slot="start" name="log-out-outline"></ion-icon>
+              <ion-label>Logout</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

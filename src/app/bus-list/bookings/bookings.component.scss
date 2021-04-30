@@ -1,0 +1,19 @@
+ion-row {
+    border-bottom: 1px solid #e3e3e3;
+
+    &.head {
+      border-width: 2px;
+
+      ion-col {
+        font-weight: bold;
+      }
+    }
+
+    &:last-child {
+      border-width: 0
+    }
+  }
+
+  ion-col {
+    padding: 10px 5px;
+  }

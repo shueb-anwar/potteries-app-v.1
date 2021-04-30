@@ -1,0 +1,29 @@
+app-otp {
+	form {
+		text-align: center;
+		padding-top: 50px;
+		background-image: url('/assets/question-bg.png');
+		background-repeat: no-repeat;
+		background-size: 100%
+	}
+
+	img {
+		width: 220px;
+		margin-bottom: 30px;
+	}
+
+	ion-item {
+		--border-radius: 30px;
+		text-align: center;
+		--highlight-height: 0;
+		margin-top: 50px;
+	}
+
+	.button {
+		margin-left: 0;
+		margin-right: 0;
+		margin-top: 20px;
+		height: 49px;
+		--border-radius: 30px;
+	}
+}
