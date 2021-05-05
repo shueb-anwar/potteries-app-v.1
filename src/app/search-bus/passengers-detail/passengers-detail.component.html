@@ -46,7 +46,7 @@
 	        <div [formGroupName]= "i">
 	          <ion-list-header color="light">
 	            Passenger {{i+1}}
-	            <ion-button  color="secondary" size="small" (click)="removePassenger()" *ngIf="complexForm.controls.passengers.controls.length > 1 && i > 0">
+	            <ion-button  color="secondary" size="small" (click)="removePassenger(i)" *ngIf="complexForm.controls.passengers.controls.length > 1 && i > 0">
 	              <ion-icon slot="start" name="trash"></ion-icon>
 	              Delete Passenger
 	            </ion-button>
@@ -62,9 +62,9 @@
 	          <ion-item>
 	            <ion-label>Gender</ion-label>
 	            <ion-select displayFormat="h:mm A" pickerFormat="h mm A" name="t1" autocomplete="off" formControlName="gender" [ngClass]="{'is-invalid':!complexForm.controls.passengers.controls[i].controls['gender'].valid && complexForm.controls.passengers.controls[i].controls['gender'].touched}">
-	              <ion-select-option>Male</ion-select-option>
-	              <ion-select-option>Female</ion-select-option>
-	              <ion-select-option>Other</ion-select-option>
+	              <ion-select-option value="male">Male</ion-select-option>
+	              <ion-select-option value="female">Female</ion-select-option>
+	              <ion-select-option value="others">Other</ion-select-option>
 	            </ion-select>
 	          </ion-item>
 	        </div>

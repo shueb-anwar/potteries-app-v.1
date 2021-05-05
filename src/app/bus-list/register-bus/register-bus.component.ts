@@ -27,8 +27,6 @@ export class RegisterBusComponent {
 			name: ["John Deo", Validators.required],
 			uid: [firebase.auth().currentUser.uid, Validators.required],
 			registration: ["UP 23 T d1234", Validators.compose([Validators.required, Validators.maxLength(20)])],
-			to: ["Okhla", Validators.compose([Validators.required, Validators.maxLength(20)])],
-			from: ["Amroha", Validators.compose([Validators.required, Validators.maxLength(20)])],
 			lat: [null],
 			long: [null],
 			contact: ["9560834202", Validators.compose([Validators.required, Validators.maxLength(20)])],

@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { UpdateUserNameComponent } from './update-user-name/update-user-name.component';
 import { UpdateUserEmailComponent } from './update-user-email/update-user-email.component';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { UserProvider } from '../providers/firebase/user'; 
+import { UserService } from '../user.service';
+import { IUserProfile } from './user-profile.interface';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,6 +20,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class UserProfilePage {
 	public user: any;
+  public profileData: any;
 
 	public editName: boolean = false;
 	public editEmail: boolean = false;
@@ -27,22 +31,50 @@ export class UserProfilePage {
 	    private toastCtrl: AlertController,
 	    public modalCtrl: ModalController,
       public router: Router,
-      public auth: AngularFireAuth
+      public auth: AngularFireAuth,
+      public userProvider: UserProvider,
+      public userService: UserService
 	) {
-
-  	// this.user = firebase.auth().currentUser;
     var self = this;
 
     this.getCurrentUser(this.auth).then(function(user) {
       self.user = user;
+
+      self.fetchUserProfileData();
     })
 
     this.complexForm = fb.group({
       gender: [null, Validators.required]
     });
 
-    this.complexForm.get('gender').valueChanges.subscribe(val => {
+    this.complexForm.get('gender').valueChanges.subscribe(gender => {
+      this.updateUserProfileData({ gender })
+    });
+  }
 
+  fetchUserProfileData() {
+    var self = this;
+
+    this.userProvider.getItem(this.user.uid).then(function (res: {payload: IUserProfile, key: string}) {
+      if(res && res.payload) {
+        self.complexForm.patchValue(res.payload)
+      }
+    });
+  }
+
+  updateUserProfileData(payload) {
+    var self = this;
+
+    this.userProvider.getItem(self.user.uid).then(function (res: {payload: IUserProfile, key: string}) {
+      if(res && res.payload) {
+        var data = {...res.payload,  ...payload }
+        self.userProvider.updateItem(data, res.key);
+      } else {
+        self.userProvider.addItem({
+          payload,
+          uid: self.user.uid
+        })
+      }
     });
   }
 

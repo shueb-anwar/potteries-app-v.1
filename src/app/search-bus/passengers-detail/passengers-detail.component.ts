@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 
 import { BookingProvider } from '../../providers/firebase/booking';
+import { UserProvider } from '../../providers/firebase/user';
 
 import { PaymentGatewayService } from '../../../app/payment.service';
 
@@ -11,7 +12,7 @@ import firebase from 'firebase/app';
 import { map, filter, find, assign, forEach, isEmpty, isEqual } from 'lodash';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-
+import { IUserProfile } from '../../user-profile/user-profile.interface';
 @Component({
   selector: 'app-passengers-detail',
   templateUrl: './passengers-detail.component.html',
@@ -43,8 +44,11 @@ export class PassengersDetailComponent implements OnInit {
     	public fb: FormBuilder,
       public paymentgateway:  PaymentGatewayService,
       private storage: Storage,
-      private iab: InAppBrowser
+      private iab: InAppBrowser,
+      public userProvider: UserProvider
   	) {
+      var self = this;
+
   		this.navParams.queryParams.subscribe(params => {
         this.bus = JSON.parse(params.bus);
 
@@ -100,7 +104,7 @@ export class PassengersDetailComponent implements OnInit {
           to: [this.bus.selectedRoute.to, Validators.required],
           time: [this.bus.selectedRoute.time, Validators.required],
   				passengers: fb.array([
-  					this.initPassengers()
+  					this.initPassengers(this.user.displayName)
   				]),
   				userid: [this.user.uid, Validators.required],
           status: 'PENDING'
@@ -126,6 +130,12 @@ export class PassengersDetailComponent implements OnInit {
           });
         });
         
+        this.userProvider.getItem(this.user.uid).then(function(res: {key: string, payload: IUserProfile}) {
+          if(res && res.payload) {
+            var passenger = <FormArray>self.complexForm.controls['passengers'];
+            passenger.controls[0].patchValue({gender: res.payload.gender})
+          }
+        })
 	    });
   }
 
@@ -139,18 +149,18 @@ export class PassengersDetailComponent implements OnInit {
     // this.selectRef.open();
   }
 
-  initPassengers(){
+  initPassengers(name?: any, gender?: any){
     return this.fb.group({
-      name: [this.user.displayName , Validators.required],
-      age: [30, Validators.required],
-      gender: ['Male', Validators.required],
+      name: [name , Validators.required],
+      age: [null, Validators.required],
+      gender: [gender, Validators.required],
       seat: [1]
     });;
   }
 
-  addPassenger() {
-    const routes = <FormArray>this.complexForm.controls['passengers'];
-    routes.push(this.initPassengers());
+  addPassenger(name?, gender?) {
+    const passengers = <FormArray>this.complexForm.controls['passengers'];
+    passengers.push(this.initPassengers(name, gender));
   }
 
   removePassenger(i: number) {

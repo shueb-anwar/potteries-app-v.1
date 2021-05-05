@@ -19,7 +19,7 @@ export class AppComponent {
   public appPages = [
     // { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Search Bus', url: '/search-bus', icon: 'subway' },
-    { title: 'Bus List', url: '/bus-list', icon: 'list' },
+    { title: 'Manage Buses', url: '/bus-list', icon: 'list' },
     { title: 'User Profile', url: '/user-profile', icon: 'person' },
     { title: 'My Bookings', url: '/user-profile/bookings', icon: 'apps' }
   ];
