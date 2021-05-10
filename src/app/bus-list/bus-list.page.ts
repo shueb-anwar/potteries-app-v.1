@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BusProvider } from './../providers/firebase/bus';
 import { BookingProvider } from './../providers/firebase/booking';
-
+import { IUserProfile } from '../user-profile/user-profile.interface';
 
 import { AngularFireList } from "@angular/fire/database"; 
 
@@ -24,6 +24,7 @@ import firebase from 'firebase/app';
 export class BusListPage implements OnInit {
 	//buses: AngularFireList<any[]>;
   buses: any[] = [];
+  public user: IUserProfile;
   public result:boolean = false;
 
   constructor(
@@ -32,21 +33,16 @@ export class BusListPage implements OnInit {
     public modalCtrl: ModalController,
     // private geolocation: Geolocation
   ) { 
-  	var self = this;
+    this.user = JSON.parse(localStorage.getItem('user'));
+    console.log(this.user)
+    this.busProvider.getBusList(this.user).once('value', (res) => {
+      this.buses = map(res.val(), (item, index) => { return { key: index, ...item } });
 
-    // this.busProvider.listItems().snapshotChanges().subscribe(items => {
-    //   self.buses = items.map(item => ( {key: item.key, ...item.payload.val()} ));
-    // });
-
-    this.busProvider.getBusListByMobileUserId(firebase.auth().currentUser.uid).once('value', function(res){
-      self.buses = map(res.val(), function(item, index) { return { key: index, ...item } });
-
-      self.result = true;
+      this.result = true;
     })
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   async busDetail(bus) {
 	  const modal = await this.modalCtrl.create({

@@ -1,4 +1,9 @@
 export interface IUserProfile {
-    gender: string,
-    uid: any
+    email: string;
+    emailVerified: boolean;
+    gender?: string;
+    name: string;
+    phoneNumber: string;
+    role: string;
+    uid: any;
 }

@@ -12,6 +12,13 @@ const routes: Routes = [
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
   {
+    path: 'manage-users',
+    loadChildren: () => import('./manage-user/manage-user.module').then( m => m.ManageUserModule),
+    data: {
+      title: 'Manage Users'
+    }
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },

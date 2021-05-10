@@ -41,7 +41,14 @@ export class UserProvider {
   }
 
   getItems() {
-    return this.afd.list('/users/');
+    var ref =  this.afd.database.ref('/users/')
+
+    return new Promise(function(resolve, reject) {
+      ref.orderByChild("uid")
+      .once('value', function (res) {
+        resolve(map(res.val(), (item, index) => { return { key: index, ...item } }));
+      })
+    });
   }
  
   addItem(name) {

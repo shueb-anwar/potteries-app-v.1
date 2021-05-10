@@ -32,8 +32,8 @@ export class SearchResultComponent implements OnInit {
   	ngOnInit() {}
 
 	getData(formData: any) {
-		this.busProvider.getItems().once("value", res => {
-			this.buses = filter(res.val(), function(item, index) {
+		this.busProvider.getItems().then( res => {
+			this.buses = filter(res, function(item, index) {
 				var route = find(item.routeDetail, function(item: any){
 					if(item.to.toLowerCase().includes(formData.to.toLowerCase()) && item.from.toLowerCase().includes(formData.from.toLowerCase())) {
 						return true;

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import * as firebase from 'firebase/app';
-
 import { AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -12,6 +10,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { UserProvider } from '../providers/firebase/user'; 
 import { UserService } from '../user.service';
 import { IUserProfile } from './user-profile.interface';
+import { map } from 'lodash';
 
 @Component({
   selector: 'app-user-profile',
@@ -35,12 +34,10 @@ export class UserProfilePage {
       public userProvider: UserProvider,
       public userService: UserService
 	) {
-    var self = this;
+    this.getCurrentUser(this.auth).then(user => {
+      this.user = user;
 
-    this.getCurrentUser(this.auth).then(function(user) {
-      self.user = user;
-
-      self.fetchUserProfileData();
+      this.fetchUserProfileData();
     })
 
     this.complexForm = fb.group({
@@ -53,11 +50,9 @@ export class UserProfilePage {
   }
 
   fetchUserProfileData() {
-    var self = this;
-
-    this.userProvider.getItem(this.user.uid).then(function (res: {payload: IUserProfile, key: string}) {
+    this.userProvider.getItem(this.user.uid).then((res: {payload: IUserProfile, key: string }) => {
       if(res && res.payload) {
-        self.complexForm.patchValue(res.payload)
+        this.complexForm.patchValue(res.payload)
       }
     });
   }
@@ -106,6 +101,8 @@ export class UserProfilePage {
       }).then(function() {
         self.presentToast("Display Name Updated Successfully!");
         self.editName = false;
+
+        self.updateUserProfileData({name: data.name})
       }).catch(function(error) {
         // An error happened.
       });

@@ -1,13 +1,14 @@
 import { Component, Inject } from '@angular/core';
 
-import { Platform, AlertController } from '@ionic/angular';
-
+import { Platform, AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+import { UserProvider } from './providers/firebase/user'; 
+import { IUserProfile } from './user-profile/user-profile.interface';
 import firebase from 'firebase/app';
 
 @Component({
@@ -16,21 +17,11 @@ import firebase from 'firebase/app';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  public appPages = [
-    // { title: 'Home', url: '/home', icon: 'home' },
-    { title: 'Search Bus', url: '/search-bus', icon: 'subway' },
-    { title: 'Manage Buses', url: '/bus-list', icon: 'list' },
-    { title: 'User Profile', url: '/user-profile', icon: 'person' },
-    { title: 'My Bookings', url: '/user-profile/bookings', icon: 'apps' }
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public role: string = 'user';
+  public appPages = [];
+  public result: boolean = false;
 
-  public user: {
-    displayName: string;
-    email: string;
-    phoneNumber: string;
-    uid: any;
-  } = {
+  public user: { displayName: string; email: string; phoneNumber: string; uid: any } = {
     displayName: null,
     email: null,
     phoneNumber: null,
@@ -38,13 +29,16 @@ export class AppComponent {
   };
 
   public isAnonymous: any;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
     public router: Router,
-    public auth: AngularFireAuth
+    public auth: AngularFireAuth,
+    public userProvider: UserProvider
   ) {
     this.initializeApp();
   }
@@ -55,17 +49,58 @@ export class AppComponent {
       this.splashScreen.hide();
     });
 
-    var self = this;
-
-    this.auth.onAuthStateChanged(function(user) {
+    this.auth.authState.subscribe(user => {
       if (user) {
-        self.isAnonymous = user.isAnonymous;
-        self.user = user;
-        console.log(user)
+        this.isAnonymous = user.isAnonymous;
+        this.user = user;
+        console.log(user);
+
+        this.userProvider.getItem(user.uid).then((res: { payload: IUserProfile, key: string }) => {
+          this.role = res.payload.role;
+          
+          localStorage.setItem('user', JSON.stringify({
+            email: user.email,
+            emailVerified: user.emailVerified,
+            name: user.displayName,
+            phoneNumber: user.phoneNumber,
+            role: this.role,
+            uid: user.uid,
+          }));
+          
+          this.initializeAppPages();
+        });
       } else {
-        self.router.navigate(['user-profile/signin'], {});
+        localStorage.setItem('user', null);
+        this.router.navigate(['user-profile/signin'], {});
       }
     });
+  }
+
+  initializeAppPages() {
+    this.appPages = [
+      // { title: 'Home', url: '/home', icon: 'home' },
+      { title: 'Search Bus', url: '/search-bus', icon: 'subway', enabled: true },
+      { title: 'My Buses', url: '/bus-list', icon: 'list', enabled: (this.role == 'owner' || this.role == 'admin' || this.role == 'driver') },
+      { title: 'Manage Users', url: '/manage-users', icon: 'people', enabled: (this.role == 'admin') },
+      { title: 'User Profile', url: '/user-profile', icon: 'person', enabled: true },
+      { title: 'My Bookings', url: '/user-profile/bookings', icon: 'apps', enabled: true }
+    ];
+  }
+  
+  demoFunction() {
+    this.toastCtrl.create({
+      header: 'Confirm logout',
+      message: 'Do you really want to logout?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    }).then(alert => alert.present())
   }
 
   logout() {
@@ -83,11 +118,14 @@ export class AppComponent {
         {
           text: 'Logout',
           handler: () => {
-            firebase.auth().signOut().then(function() {
-              // self.nav.setRoot(SignIn);
-            }).catch(function(error) {
-              // An error happened.
-            });
+            this.auth.signOut().then( () => {
+
+            }).catch( () => {})
+            // firebase.auth().signOut().then(function() {
+            //   // self.nav.setRoot(SignIn);
+            // }).catch(function(error) {
+            //   // An error happened.
+            // });
           }
         }
       ]

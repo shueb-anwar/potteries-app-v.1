@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 //import { AngularFireDatabase, FirebaseListObservable } from '@angular/fire/database';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { map } from 'lodash';
-
+import { IUserProfile } from '../../user-profile/user-profile.interface';
 /*
   Generated class for the FirebaseProvider provider.
 
@@ -21,11 +21,13 @@ export class BusProvider {
   }
 
   getItems() {
-    return this.db.database.ref('/busList/');
-  }
+    var ref =   this.db.database.ref('/busList/');
 
-  listItems() {
-    return this.db.list('/busList/');
+    return new Promise(function(resolve, reject) {
+      ref.once('value', function (res) {
+        resolve(res.val());
+      })
+    });
   }
 
   getBusListOld() {
@@ -35,14 +37,29 @@ export class BusProvider {
       .startAt(1527071660958)
   }
 
+  getBusList(user: IUserProfile) {
+    var ref = this.db.database.ref('/busList/');
+
+    if(user.role == 'admin') {
+      return ref;
+    } else if(user.role == 'owner') {
+      return ref.orderByChild("uid")
+        .equalTo(user.uid)
+    } else if( user.role == 'driver') {
+      return ref.orderByChild("contact")
+        .limitToFirst(4)
+        .equalTo(user.phoneNumber)
+    }
+  }
+
   getBusListByMobile(mobile) {
     return this.db.database.ref('/busList/')
       .orderByChild("contact")
       .limitToFirst(4)
-      .startAt(mobile)
+      .startAt(mobile);
   }
 
-  getBusListByMobileUserId(uid) {
+  getBusListByUserId(uid) {
     return this.db.database.ref('/busList/')
       .orderByChild("uid")
       // .limitToFirst(4)
