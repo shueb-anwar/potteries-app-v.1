@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" slot="end" color="light" (click)="loadUsers()">
+        <ion-icon name="create" slot="start"></ion-icon>
+        Edit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list *ngIf="users">
+    <ion-list-header>
+      <ion-label>Available Users</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let user of users" class="multi-button">
+      <ion-label position="floating">{{user.name}}</ion-label>
+      <ion-select (ionChange)="updateRole(user.key, $event)" okText="Done" cancelText="Dismiss" [value]="user.role">
+        <ion-select-option value="" selected>Select User Role</ion-select-option>
+        <ion-select-option value="driver">Driver</ion-select-option>
+        <ion-select-option value="owner">Bus Owner</ion-select-option>
+        <ion-select-option value="user">User</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>
