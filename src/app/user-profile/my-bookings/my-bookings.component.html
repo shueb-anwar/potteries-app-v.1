@@ -25,9 +25,19 @@
 				</ion-chip>
 	    	</div>
 
-	    	<ion-button fill="outline" slot="end" (click)="moreDetail(item.index)">
+	    	<!-- <ion-button fill="outline" slot="end" (click)="moreDetail(item.index)">
 	    		<ion-icon name="more" slot="start"></ion-icon>
-	    		Bus Detail</ion-button>
+	    		Bus Detail
+			</ion-button> -->
 	    </ion-item>
+
+		<ion-item *ngIf="result && !bookings.length">
+			<ion-label>
+				No records found !
+			</ion-label>
+			<ion-button slot="end" [routerLink]="['/search-bus']">
+				Book a bus
+			</ion-button>
+		</ion-item>
 	  </ion-list>
 </ion-content>

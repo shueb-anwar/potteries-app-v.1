@@ -35,7 +35,9 @@ export class ManageUser implements OnInit {
   }
 
   updateRole(key, event) {
-    this.userProvider.updateItem({role: event.target.value}, key);
+    if(event.target.value) {
+      this.userProvider.updateItem({role: event.target.value}, key);
+    }
   }
 
   loadUsers(){

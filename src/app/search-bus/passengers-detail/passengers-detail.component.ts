@@ -1,14 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-
 import { BookingProvider } from '../../providers/firebase/booking';
 import { UserProvider } from '../../providers/firebase/user';
-
 import { PaymentGatewayService } from '../../../app/payment.service';
-
 import firebase from 'firebase/app';
-
 import { map, filter, find, assign, forEach, isEmpty, isEqual } from 'lodash';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -27,7 +23,6 @@ export class PassengersDetailComponent implements OnInit {
   public processTransactionForm: FormGroup;
 	public today: any;
 	public tomorrow: any;
-	public selectOptions: any;
   public customAlertOptions: any;
 	public selectedRoute: any;
 	public user: any;
@@ -47,16 +42,8 @@ export class PassengersDetailComponent implements OnInit {
       private iab: InAppBrowser,
       public userProvider: UserProvider
   	) {
-      var self = this;
-
   		this.navParams.queryParams.subscribe(params => {
         this.bus = JSON.parse(params.bus);
-
-        this.selectOptions = {
-  				title: 'Select Route',
-  				mode: 'md',
-  				interface: 'popover'
-		    };
 
         this.customAlertOptions = {
           cssClass: 'lg',
@@ -64,7 +51,7 @@ export class PassengersDetailComponent implements OnInit {
           message: "You are changing your trip; Please make sure to pick the correct route."
         }
 
-  			this.user = firebase.auth().currentUser || {};
+        this.user = JSON.parse(localStorage.getItem('user'));
         
         if(isEmpty(this.user)) {
           this.router.navigate(['search-bus'])
@@ -83,7 +70,7 @@ export class PassengersDetailComponent implements OnInit {
           // WEBSITE: ['APPSTAGING'],
           MOBILE_NO: [this.user.phoneNumber],
           EMAIL: [this.user.email],
-          CALLBACK_URL: ['https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID='+ order_id],
+          CALLBACK_URL: ['https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID='+ order_id]
         });
 
         // PayTM Payment Code End
@@ -104,7 +91,7 @@ export class PassengersDetailComponent implements OnInit {
           to: [this.bus.selectedRoute.to, Validators.required],
           time: [this.bus.selectedRoute.time, Validators.required],
   				passengers: fb.array([
-  					this.initPassengers(this.user.displayName)
+  					this.initPassengers(this.user.name)
   				]),
   				userid: [this.user.uid, Validators.required],
           status: 'PENDING'
@@ -130,9 +117,9 @@ export class PassengersDetailComponent implements OnInit {
           });
         });
         
-        this.userProvider.getItem(this.user.uid).then(function(res: {key: string, payload: IUserProfile}) {
+        this.userProvider.getItem(this.user.uid).then((res: {key: string, payload: IUserProfile}) => {
           if(res && res.payload) {
-            var passenger = <FormArray>self.complexForm.controls['passengers'];
+            var passenger = <FormArray>this.complexForm.controls['passengers'];
             passenger.controls[0].patchValue({gender: res.payload.gender})
           }
         })
@@ -170,12 +157,12 @@ export class PassengersDetailComponent implements OnInit {
   }
 
   submitForm(form) {
-    var self = this, seatBooked = 0, payload = form.value, availableSeatCapacity;
+    var seatBooked = 0, payload = form.value, availableSeatCapacity;
 
     if(form.valid){
       var busId = this.bus.busId;
 
-      this.bookingProvider.getBookingHistory(busId, payload.date).once("value", function(response) {
+      this.bookingProvider.getBookingHistory(busId, payload.date).once("value", (response) => {
         var items = map(response.val(), item => { return item; });  // items -> total entity
 
         if(items && items.length) {
@@ -194,7 +181,7 @@ export class PassengersDetailComponent implements OnInit {
           });
           
           // Seat Availablity in case of more than one passengers
-          availableSeatCapacity = self.bus.capacity - seatBooked;
+          availableSeatCapacity = this.bus.capacity - seatBooked;
 
           if(availableSeatCapacity) {
             if(availableSeatCapacity >= payload.passengers.length) {
@@ -202,7 +189,7 @@ export class PassengersDetailComponent implements OnInit {
                 item.seat = seatBooked + index + 1;
               });
 
-              self.bookBus(payload);  
+              this.bookBus(payload);
             } else {
               console.log(`Only ${availableSeatCapacity} seat(s) available. Please remove extra passengers and proceed.`)
             }
@@ -216,7 +203,7 @@ export class PassengersDetailComponent implements OnInit {
             });
           }
 
-          self.bookBus(payload);
+          this.bookBus(payload);
         }
       });
       
@@ -226,31 +213,33 @@ export class PassengersDetailComponent implements OnInit {
   }
 
   bookBus(data) {
-    var busId = this.bus.busId, self = this;
+    var busId = this.bus.busId;
 
     if(this.tempPayload && this.tempPayload.orderid == data.orderid) {
       this.processPayment();
     } else {
       this.tempPayload = data;
 
-      this.bookingProvider.addItem(busId, data).then(function(res: any){
-        self.storage.set('bookingDetail', assign(data, { key: res.getKey() }));
+      this.bookingProvider.addItem(busId, data).then((res: any) => {
+        this.storage.set('bookingDetail', assign(data, { key: res.getKey() }));
 
-        self.processPayment();      
+        this.processPayment();
       });
     }
   }
 
   processPayment() {
     var payload = this.processTransactionForm.value;
-    // Ref. - https://forum.ionicframework.com/t/paytm-integration-with-ionic3/142827/13
-    console.log(payload)
+    /*** * Ref. -
+     * https://forum.ionicframework.com/t/paytm-integration-with-ionic3/142827/13
+     * https://github.com/Paytm-Payments/Paytm_Web_Sample_Kit_PHP
+    */
     const iab = this.iab.create(this.paymentgateway.paymentURL + "?" + this.paymentgateway.toQueryParams(payload), "_blank", 'location=no');
 
     iab.on("loadstart")
       .subscribe((event) => {
         // iab.executeScript({ code: "(function() { alert(123); })()"});
-        if (event.url == payload['CALLBACK_URL']){
+        if (event.url == payload['CALLBACK_URL']) {
           // loading.present(); 
           iab.close();
 
@@ -258,7 +247,7 @@ export class PassengersDetailComponent implements OnInit {
             ORDER_ID: payload['ORDER_ID']
           }).subscribe(res => {
             console.log(res);
-            
+
             this.router.navigate(['/search-bus/confirmation'], {
               queryParams: {
                 TXT_STATUS: res.STATUS,
@@ -267,12 +256,6 @@ export class PassengersDetailComponent implements OnInit {
                 RESPMSG: res.RESPMSG,
               }
             });
-
-            // if (res.STATUS == "TXN_SUCCESS") {
-              
-            // } else {
-            //   alert(`Transaction Failed for reason: - ${res.RESPMSG} (${res.RESPCODE})`);
-            // }
           }, error => {
             console.log(error)
           });

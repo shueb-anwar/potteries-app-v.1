@@ -2,9 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BusProvider } from './../../providers/firebase/bus';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, find } from 'lodash';
-
 import { CallNumber } from '@ionic-native/call-number/ngx';
-
 
 @Component({
   selector: 'app-search-result',

@@ -9,7 +9,7 @@ import { throwError } from 'rxjs';
 @Injectable()
 export class PaymentGatewayService {
 	// public host = "http://tour-paytm-checksumhash-tour-checksumhash.1d35.starter-us-east-1.openshiftapps.com";
-	public host = "http://www.medismglobal.com/paytm-prod";
+	public host = "http://www.sumayyashireen.com/Paytm_Web_Sample_Kit_PHP/PaytmKit";
 
 	public paymentURL: string = this.host + "/pgRedirect.php";
 

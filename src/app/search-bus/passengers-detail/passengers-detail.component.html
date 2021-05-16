@@ -16,14 +16,14 @@
 
 <ion-content>
 	<form [formGroup]="complexForm" novalidate="">
-		<ion-list-header color="light">
-			<div>
+		<ion-list-header color="light" lines="full">
+			<ion-label>
 				{{this.selectedRoute.from}}
-				<ion-icon name="arrow-round-forward"></ion-icon>
+				<ion-icon name="arrow-forward-outline"></ion-icon>
 				{{this.selectedRoute.to}} 
 				@
 				{{this.selectedRoute.time | militaryTime}}
-			</div>
+			</ion-label>
 			<ion-button fill="outline" color="secondary" size="small" (click)="mySelect.open()">
 			  <ion-icon slot="start"  name="refresh"></ion-icon>
 			  Change Route

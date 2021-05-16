@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class MyBookingsComponent {
 	public user: any;
 	public bookings: any;
+	public result: boolean = false;
 
 	constructor(
 		public busProvider: BusProvider,
@@ -23,13 +24,15 @@ export class MyBookingsComponent {
 		public router: Router) {
 		var self = this;
 
-		this.user = firebase.auth().currentUser;
+		this.user = JSON.parse(localStorage.getItem('user'));
 
 		if(this.user) {
-		    this.bookingProvider.getMyBookings(this.user.uid).once("value", function(res) {
-		      self.bookings = map(res.val(), item => {
+		    this.bookingProvider.getMyBookings(this.user.uid).once("value", (res) => {
+		      this.bookings = map(res.val(), item => {
 		        return item;
 		      });
+
+			  this.result = true;
 		    })
 		} else {
 			this.router.navigate(["/search-bus"])

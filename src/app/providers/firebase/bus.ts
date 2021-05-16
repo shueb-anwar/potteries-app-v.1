@@ -48,7 +48,7 @@ export class BusProvider {
     } else if( user.role == 'driver') {
       return ref.orderByChild("contact")
         .limitToFirst(4)
-        .equalTo(user.phoneNumber)
+        .equalTo(user.phoneNumber);
     }
   }
 
