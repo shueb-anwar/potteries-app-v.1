@@ -24,18 +24,22 @@
 				@
 				{{this.selectedRoute.time | militaryTime}}
 			</ion-label>
-			<ion-button fill="outline" color="secondary" size="small" (click)="mySelect.open()">
+			<ion-button fill="outline" size="small" [routerLink]="['/search-bus']">
+			  <ion-icon slot="start"  name="refresh"></ion-icon>
+			  Change Search
+			</ion-button>
+			<!-- <ion-button fill="outline" color="secondary" size="small" (click)="mySelect.open()">
 			  <ion-icon slot="start"  name="refresh"></ion-icon>
 			  Change Route
-			</ion-button>
+			</ion-button> -->
 		</ion-list-header>
 
-		<ion-item [hidden]=true>
+		<!-- <ion-item [hidden]=true>
 			<ion-label>Select Route</ion-label>
 			<ion-select formControlName="route" #mySelect interface="alert" [interfaceOptions]="customAlertOptions" ok-text="Select" value="{{selectedRoute.id}}">
 			  <ion-select-option *ngFor="let route of bus.routeDetail; let i=index" value="{{route.id}}">From {{route.from}} to {{route.to }} @ {{route.time | militaryTime}}</ion-select-option>
 			</ion-select>
-		</ion-item>
+		</ion-item> -->
 
 		<ion-item>
 			<ion-label>Date</ion-label>
@@ -44,13 +48,13 @@
 	    <ion-list formArrayName="passengers">
 	      <div *ngFor="let line_item of complexForm.controls.passengers.controls; let i=index">
 	        <div [formGroupName]= "i">
-	          <ion-list-header color="light">
-	            Passenger {{i+1}}
-	            <ion-button  color="secondary" size="small" (click)="removePassenger(i)" *ngIf="complexForm.controls.passengers.controls.length > 1 && i > 0">
-	              <ion-icon slot="start" name="trash"></ion-icon>
-	              Delete Passenger
+						<ion-item color="light" lines="none">
+							<ion-icon name="person-outline" slot="start"></ion-icon>
+							<ion-label>Passenger {{i+1}}</ion-label>
+							<ion-button color="danger" icon-only fill="outline" slot="end" (click)="removePassenger(i)" *ngIf="complexForm.controls.passengers.controls.length > 1 && i > 0">
+	              <ion-icon name="trash"></ion-icon>
 	            </ion-button>
-	          </ion-list-header>
+						</ion-item>
 	          <ion-item>
 	            <ion-label color="primary" position="stacked">Name</ion-label>
 	            <ion-input type="text" id="name" placeholder="From" formControlName="name" [ngClass]="{'is-invalid':!complexForm.controls.passengers.controls[i].controls['name'].valid && complexForm.controls.passengers.controls[i].controls['name'].touched}" placeholder="Name"></ion-input>
@@ -70,14 +74,16 @@
 	        </div>
 	      </div>
 	    </ion-list>
-		<ion-card>
-			<ion-card-header><strong>Estimated Fare</strong></ion-card-header>
-			<ion-card-content>
-				<p>Total Fare: Rs.{{this.bus.fare * complexForm.controls.passengers.length}}/- <small>Need to pay directly in bus.</small></p>
-				<p>Booking Changes: Rs.{{totalBookingCharges}}/-</p>
-			</ion-card-content>
-		</ion-card>
-    	<ion-button  expand="full" color="tertiary" (click)="submitForm(complexForm)">Confirm and Proceed for Payment
+			<ion-card>
+				<ion-card-header>
+					<ion-card-subtitle>Estimated Fare</ion-card-subtitle>
+				</ion-card-header>
+				<ion-card-content>
+					<p>Total Fare: Rs.{{this.bus.fare * complexForm.controls.passengers.length}}/- <small>Need to pay directly in bus.</small></p>
+					<p>Booking Changes: Rs.{{totalBookingCharges}}/-</p>
+				</ion-card-content>
+			</ion-card>
+			<ion-button  expand="full" color="tertiary" (click)="submitForm(complexForm)">Confirm Booking and Pay {{totalBookingCharges}}.00/-
     		<ion-icon slot="end" ios="ios-arrow-round-forward" md="ios-arrow-round-forward"></ion-icon>
     	</ion-button>
   	</form>

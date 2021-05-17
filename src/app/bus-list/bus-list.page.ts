@@ -34,7 +34,7 @@ export class BusListPage implements OnInit {
     // private geolocation: Geolocation
   ) { 
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user)
+
     this.busProvider.getBusList(this.user).once('value', (res) => {
       this.buses = map(res.val(), (item, index) => { return { key: index, ...item } });
 

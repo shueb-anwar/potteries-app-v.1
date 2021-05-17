@@ -16,6 +16,7 @@ import { map, assign } from 'lodash';
 })
 export class UpdateBusComponent extends RegisterBusComponent {
   public bus: any;
+  public page: string = 'update';
 
   constructor(
   	public busProvider: BusProvider,
@@ -28,31 +29,25 @@ export class UpdateBusComponent extends RegisterBusComponent {
 
     this.bus = navParams.get('bus');
 
-    this.complexForm.patchValue(assign({}, this.bus, {lat: null, long: null}));
+    if(this.bus.routeDetail && this.bus.routeDetail.length){
+      map(this.bus.routeDetail, (item, index) => {
+        this.addRoute();
 
-    var self = this;
-
-    if(this.bus.routeDetail && this.bus.routeDetail.length > 1){
-      map(this.bus.routeDetail, function(item, index){
-        if(index > 0) {
-          self.addRoute(item)
-        }
+        map(item.stopDetail, (item) => {
+          this.addStop(index);
+        });
       });        
     }
-  } 
 
-  close(data) {
-		this.modalCtrl.dismiss(data);
-	}
+    this.complexForm.patchValue(assign({}, this.bus, {lat: null, long: null}));
+  }
 
   submitForm(form) {
-    const self = this;
-
     if(form.valid) {
       this.busProvider.updateItem(this.bus.key, form.value)
-        .then(function(res){
-          self.presentToast("Bus Updated Successfully Successfully");
-          self.close({ key: self.bus.key, ...form.value });
+        .then((res) => {
+          this.presentToast("Bus Updated Successfully Successfully");
+          this.dismiss({ key: this.bus.key, ...form.value });
         });
     } else {
       this.complexForm.markAsTouched();

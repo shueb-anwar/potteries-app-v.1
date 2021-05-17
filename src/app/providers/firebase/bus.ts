@@ -30,6 +30,17 @@ export class BusProvider {
     });
   }
 
+  getResult() {
+    var rootRef = this.db.database.ref();
+    var busRef =   rootRef.child('busList');
+
+    return new Promise(function(resolve, reject) {
+      busRef.once('value', function (res) {
+        resolve(res.val());
+      })
+    });
+  }
+
   getBusListOld() {
     return this.db.database.ref('/busList/')
       .orderByChild("updated")

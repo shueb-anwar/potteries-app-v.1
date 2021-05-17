@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
 
 import { ModalController, ToastController } from '@ionic/angular';
 
@@ -8,7 +8,7 @@ import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-register-bus',
-  templateUrl: './register-bus.component.html',
+  templateUrl: '../update-bus/update-bus.component.html',
   styleUrls: ['./register-bus.component.scss'],
 })
 export class RegisterBusComponent {
@@ -16,6 +16,8 @@ export class RegisterBusComponent {
 	public data = {
 	    name: 'john'
 	};
+
+	public page: string = 'register';
 
 	constructor(
 		public busProvider: BusProvider,
@@ -32,37 +34,22 @@ export class RegisterBusComponent {
 			contact: ["9560834202", Validators.compose([Validators.required, Validators.maxLength(20)])],
 			fare: [null, Validators.compose([Validators.required])],
 			capacity: [null, Validators.compose([Validators.required])],
-			routeDetail: fb.array([
-				this.initRoute(),
-			])
-		})
-	}
-
-	initRoute(item?: any){
-	    let controlGroup = null;
-
-	    if(item) {
-	    	controlGroup = this.fb.group({
-		        id: [item.id],
-		        from: [item.from, Validators.required],
-		        to: [item.to, Validators.required],
-		        time: [item.time, Validators.required],
-		    });
-	    } else {
-	    	controlGroup = this.fb.group({
-		        id: [Math.floor(1000 + Math.random() * 9000)],
-		        from: [null , Validators.required],
-		        to: [null, Validators.required],
-		        time: ["00:00", Validators.required],
-	      	});
-	    }
-
-	    return controlGroup;
+			routeDetail: fb.array([])
+		});
 	}
 
 	addRoute(route?:any) {
 		const routes = <FormArray>this.complexForm.controls['routeDetail'];
-		routes.push(this.initRoute(route));
+
+		routes.push(
+			this.fb.group({
+				id: [Math.floor(1000 + Math.random() * 9000)],
+				from: [null , Validators.required],
+				to: [null, Validators.required],
+				// time: ["00:00", Validators.required],
+				stopDetail: this.fb.array([])
+			})
+		);
 	}
 
 	removeRoute(i: number) {
@@ -71,17 +58,36 @@ export class RegisterBusComponent {
 		control.removeAt(i);
 	}
 
-	dismiss() {
-		this.modalCtrl.dismiss();
+	getStop(index: number): FormArray {
+		var routeDetail = this.complexForm.get('routeDetail') as FormArray;
+
+		return routeDetail
+      .at(index)
+      .get('stopDetail') as FormArray;
+  }
+
+	addStop(index) {
+		this.getStop(index).push(
+			this.fb.group({
+				location: [null, Validators.required],
+				time: ["00:00", Validators.required],
+			})
+		)
+	}
+
+	removeStop(index, stopIndex) {
+		this.getStop(index).removeAt(stopIndex);
+	}
+
+	dismiss(data) {
+		this.modalCtrl.dismiss(data);
 	}
 
 	submitForm(form) {
-		const self = this;
-
 		if(form.valid) {
-			this.busProvider.addItem(form.value).then(function(res){
-				self.complexForm.reset();
-				self.presentToast("Bus Registered Successfully");
+			this.busProvider.addItem(form.value).then((res) => {
+				this.complexForm.reset();
+				this.presentToast("Bus Registered Successfully");
 			});
 	    } else {
 	    	this.presentToast("Not all the fields are filled properly", 5000, 'danger');
@@ -90,12 +96,12 @@ export class RegisterBusComponent {
 
 	async presentToast(msg, duration:number = 5000, color: string = 'primary') {
 		const toast = await this.toastCtrl.create({
-	      message: msg,
-	      duration: duration,
-	      color: color
-	    });
+			message: msg,
+			duration: duration,
+			color: color
+		});
 
-	    toast.present();
+	  toast.present();
 	}
 
 }

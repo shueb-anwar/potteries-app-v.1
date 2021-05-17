@@ -16,7 +16,7 @@
     <ion-item>
       <ion-label>Route</ion-label>
       <ion-select formControlName="route" #mySelect interface="alert" [interfaceOptions]="customAlertOptions" ok-text="Select" value="{{this.bus.routeDetail[0].id}}">
-        <ion-select-option *ngFor="let route of bus.routeDetail; let i=index" value="{{route.id}}">{{route.from}} to {{route.to }} @ {{route.time}}</ion-select-option>
+        <ion-select-option *ngFor="let route of bus.routeDetail; let i=index" value="{{route.id}}">{{route.from}} to {{route.to }}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-searchbar

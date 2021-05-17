@@ -22,8 +22,10 @@ export class SearchResultComponent implements OnInit {
   		private callNumber: CallNumber
   		) {
 	   	this.navParams.queryParams.subscribe(params => {
-	        this.route = params;
+	      this.route = params;
     		this.getData(params);
+
+				// this.getBusResult(params);
 	    });
   	}
 
@@ -31,9 +33,19 @@ export class SearchResultComponent implements OnInit {
 
 	getData(formData: any) {
 		this.busProvider.getItems().then( res => {
-			this.buses = filter(res, function(item, index) {
-				var route = find(item.routeDetail, function(item: any){
-					if(item.to.toLowerCase().includes(formData.to.toLowerCase()) && item.from.toLowerCase().includes(formData.from.toLowerCase())) {
+			this.buses = filter(res, (item, index) => {
+				var route = find(item.routeDetail, (item: any) => {
+					var t1 = find(item.stopDetail, (stop, index) => {
+						stop.index = index;
+						return stop.location.toLowerCase() == formData.from.toLowerCase();
+					}), t2 = find(item.stopDetail, (stop, index) => {
+						stop.index = index;
+						return stop.location.toLowerCase() == formData.to.toLowerCase();
+					});
+
+					if( t1 && t2 && t1.index < t2.index) {
+						item.time = t1.time;
+
 						return true;
 					}
 				});
@@ -50,13 +62,19 @@ export class SearchResultComponent implements OnInit {
 		})
 	}
 
-	bookBus(bus) {
-	    this.router.navigate(['search-bus/passengers'], {queryParams: {
-	    	bus: JSON.stringify(bus)
-	    } });
+	getBusResult(payload) {
+		this.busProvider.getResult().then(res => {
+			console.log(res);
+		})
+	}
 
-	    // var date = new Date(data.date);
-	    // var dateFormat = [date.getFullYear(), date.getMonth()+1, date.getDate()].join("/");
+	bookBus(bus) {
+		this.router.navigate(['search-bus/passengers'], {queryParams: {
+			bus: JSON.stringify(bus)
+		} });
+
+		// var date = new Date(data.date);
+		// var dateFormat = [date.getFullYear(), date.getMonth()+1, date.getDate()].join("/");
 	}
 
 	callDriver(phone) {
