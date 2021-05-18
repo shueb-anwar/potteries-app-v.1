@@ -55,14 +55,11 @@
 
 		<ion-list formArrayName="routeDetail">
 			<ion-card *ngFor="let line_item of complexForm.get('routeDetail').controls; let routeIndex=index">
-				<ion-item color="light" lines="none">
+				<ion-item color="secondary" lines="none">
 					<ion-icon name="bus-outline" slot="start"></ion-icon>
-					<ion-card-subtitle>Route Information</ion-card-subtitle>
-					<ion-button fill="outline" slot="end" (click)="addStop(routeIndex)">Add Stop</ion-button>
-					<ion-button fill="outline" slot="end" color="danger" (click)="removeRoute(routeIndex)"
-						*ngIf="complexForm.controls.routeDetail.controls.length > 1">
-						<ion-icon name="close" slot="start"></ion-icon> Delete Route
-					</ion-button>
+					<ion-label><strong>Route Information</strong></ion-label>
+					<ion-icon name="close" slot="end" (click)="removeRoute(routeIndex)"
+						*ngIf="complexForm.controls.routeDetail.controls.length > 1"></ion-icon>
 				</ion-item>
 				<div [formGroupName]="routeIndex">
 					<!-- <ion-input type="text" formControlName="id" value="{{i+1}}"></ion-input> -->
@@ -91,9 +88,7 @@
 							<ion-item color="light" lines="none">
 								<ion-icon name="map-outline" slot="start"></ion-icon>
 								<ion-card-subtitle>Stops Information</ion-card-subtitle>
-								<ion-button fill="outline" color="danger" slot="end" (click)="removeStop(routeIndex, stopIndex)">
-									<ion-icon name="close" slot="start"></ion-icon> Delete Stop
-								</ion-button>
+								<ion-icon name="close" slot="end" (click)="removeStop(routeIndex, stopIndex)"></ion-icon>
 							</ion-item>
 							<div [formGroupName]="stopIndex">
 								<ion-item>
@@ -113,6 +108,9 @@
 						</ion-card>
 					</ion-list>
 				</div>
+				<ion-card-content style="padding-top: 0;">
+					<ion-button fill="outline"  (click)="addStop(routeIndex)">Add a Stop</ion-button>
+				</ion-card-content>
 			</ion-card>
 		</ion-list>
 		<div class="card-body" style="padding-top: 0">
