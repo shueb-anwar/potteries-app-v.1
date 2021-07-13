@@ -13,6 +13,7 @@ import firebase from 'firebase/app';
 })
 export class RegisterBusComponent {
 	public complexForm : FormGroup;
+	public isExpanded: string;
 	public data = {
 	    name: 'john'
 	};
@@ -81,6 +82,14 @@ export class RegisterBusComponent {
 
 	dismiss(data) {
 		this.modalCtrl.dismiss(data);
+	}
+
+	setExpanded(a, b) {
+		this.isExpanded = `${a}_${b}`
+	}
+
+	getExpanded(a, b) {
+		return this.isExpanded == `${a}_${b}`
 	}
 
 	submitForm(form) {

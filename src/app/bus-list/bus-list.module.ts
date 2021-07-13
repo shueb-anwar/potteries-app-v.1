@@ -11,6 +11,9 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { UpdateBusComponent } from './update-bus/update-bus.component';
 import { RegisterBusComponent } from './register-bus/register-bus.component';
 
+import { ApplicationPipesModule } from '../application-pipes.module';
+import { StopComponent } from './stop/stop.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -36,8 +39,9 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ApplicationPipesModule
   ],
-  declarations: [BusListPage, BookingsComponent, UpdateBusComponent, RegisterBusComponent]
+  declarations: [BusListPage, BookingsComponent, UpdateBusComponent, RegisterBusComponent, StopComponent]
 })
 export class BusListPageModule {}

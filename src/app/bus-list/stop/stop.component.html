@@ -1,0 +1,27 @@
+<ion-card [formGroupName]="stopIndex">
+  <ion-item color="light" detail (click)="showDrawer = true;" *ngIf="!showDrawer">
+    <ion-icon name="map-outline" slot="start"></ion-icon>
+    <ion-label>{{stop.controls['location'].value}}</ion-label>
+    <span slot="end">{{stop.controls['time'].value | militaryTime}}</span>
+  </ion-item>
+  <div *ngIf="showDrawer">
+    <ion-item color="light" lines="none" (click)="showDrawer = false;">
+      <ion-icon name="map-outline" slot="start"></ion-icon>
+      <ion-card-subtitle>Stops Information</ion-card-subtitle>
+      <ion-icon name="close" slot="end" (click)="removeStop(routeIndex, stopIndex)"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary" position="stacked">Location</ion-label>
+      <ion-input type="text" placeholder="Location" formControlName="location"
+        [ngClass]="{'is-invalid':(!stop.controls['location'].valid && stop.controls['location'].touched) }"
+        placeholder="Location"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Time</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" name="t1" autocomplete="off"
+        formControlName="time"
+        [ngClass]="{'is-invalid':!stop.controls['time'].valid && stop.controls['time'].touched}">
+      </ion-datetime>
+    </ion-item>
+  </div>
+</ion-card>
