@@ -23,7 +23,7 @@
     <ion-item *ngFor="let user of users" class="multi-button">
       <ion-label position="floating">{{user.name}}</ion-label>
       <ion-select (ionChange)="updateRole(user.key, $event)" okText="Done" cancelText="Dismiss" [value]="user.role" disabled
-="user.role == 'admin"      >
+="user.role == 'admin">
         <ion-select-option value="" selected>Select User Role</ion-select-option>
         <ion-select-option value="driver">Driver</ion-select-option>
         <ion-select-option value="owner">Bus Owner</ion-select-option>

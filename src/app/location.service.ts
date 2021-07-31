@@ -53,7 +53,7 @@ export class LocationService {
 
 
 	private extractData(response: Response | any) {
-		return response.json();
+		return response;
 	}
 
 	private handleError (error : Response | any) {
