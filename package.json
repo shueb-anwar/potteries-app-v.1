@@ -1,7 +1,7 @@
 {
-  "name": "tourlin-app",
+  "name": "potteries-app",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Shuaib Anwar",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",

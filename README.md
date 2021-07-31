@@ -1,9 +1,9 @@
-# tourlin-app-v.5
-Tourlin app is Bus Booking Syetm. It's a showcase of Ionic App Platform technologies, including [Ionic Framework](https://ionicframework.com), [Capacitor](https://capacitorjs.com), [Appflow](https://ionic.io/appflow), and [Ionic Enterprise solutions](https://ionic.io/docs).
+# potteries-app-v.5
+potteries app is Bus Booking Syetm. It's a showcase of Ionic App Platform technologies, including [Ionic Framework](https://ionicframework.com), [Capacitor](https://capacitorjs.com), [Appflow](https://ionic.io/appflow), and [Ionic Enterprise solutions](https://ionic.io/docs).
 
 ## Try the App
 
-Tourlin runs on the iOS, and Android all from a single codebase. See for yourself:
+potteries runs on the iOS, and Android all from a single codebase. See for yourself:
 
 ## Features
 
@@ -28,8 +28,8 @@ Tourlin runs on the iOS, and Android all from a single codebase. See for yoursel
 ## How to Run
 
 - Install the Ionic CLI: `npm install -g @ionic/cli`
-- Clone this repository: `git clone https://github.com/shueb-anwar/tourlin-app-v.5.git`
-- Navigate to repo in a terminal: `cd tourlin-app-v.5`
+- Clone this repository: `git clone https://github.com/shueb-anwar/potteries-app-v.1.git`
+- Navigate to repo in a terminal: `cd potteries-app-v.5`
 - Install dependencies (this will fail if you don't have an Ionic Native key): `npm i`
 - Run locally in a browser: `ionic serve`
 - Deploy to a mobile device: See details [here](https://capacitorjs.com/docs/basics/running-your-app).
