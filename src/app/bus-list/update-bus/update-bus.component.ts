@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-
+import { FormBuilder } from '@angular/forms';
 import { ModalController, ToastController, NavParams } from '@ionic/angular';
 
 import { BusProvider } from './../../providers/firebase/bus';

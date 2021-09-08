@@ -18,7 +18,8 @@
   <form [formGroup]="complexForm" novalidate="" *ngIf="(email && varified) || !email">
     <ion-item>
       <ion-label color="primary" position="stacked">Email</ion-label>
-      <ion-input type="email" id="email" name="email" [formControl]="complexForm.controls['email']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['email'].valid && complexForm.controls['email'].touched}" placeholder="Email"></ion-input>
+      <ion-input type="email" id="email" name="email" formControlName="email" autocomplete="off" 
+        [ngClass]="{'is-invalid':!complexForm.get('email').valid && complexForm.get('email').touched}" placeholder="Email"></ion-input>
     </ion-item>
     <ion-button expand="block" (click)="submitForm(complexForm)">Submit</ion-button>
   </form>

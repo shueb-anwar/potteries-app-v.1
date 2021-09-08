@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, FormArray, FormControl } from '@angular/forms';
-
+import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { ModalController, ToastController } from '@ionic/angular';
 
 import { BusProvider } from './../../providers/firebase/bus';
@@ -33,10 +32,14 @@ export class RegisterBusComponent {
 			lat: [null],
 			long: [null],
 			contact: ["9560834202", Validators.compose([Validators.required, Validators.maxLength(20)])],
-			fare: [null, Validators.compose([Validators.required])],
-			capacity: [null, Validators.compose([Validators.required])],
+			fare: [0, Validators.compose([Validators.required])],
+			capacity: [0, Validators.compose([Validators.required])],
 			routeDetail: fb.array([])
 		});
+	}
+
+	getRoute() {
+		return this.complexForm.get('routeDetail') as FormArray;
 	}
 
 	addRoute(route?:any) {

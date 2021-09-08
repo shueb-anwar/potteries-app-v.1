@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({name: 'militaryTime'})
 export class MilitaryTimePipe implements PipeTransform {
-  transform(time: any, exponent: string): string {
+  transform(time: any): string {
     // Check correct time format and split into components
     time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 

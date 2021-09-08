@@ -11,12 +11,14 @@
 	<form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)" novalidate="">
 	    <ion-item>
 			<ion-label color="primary" position="stacked">From</ion-label>
-			<ion-input type="text" id="from" placeholder="From" name="from" [formControl]="complexForm.controls['from']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['from'].valid && complexForm.controls['from'].touched}" placeholder="From City"></ion-input>
+			<ion-input type="text" id="from" placeholder="From" name="from" formControlName="from" autocomplete="off"
+				[ngClass]="{'is-invalid':!complexForm.get('from').valid && complexForm.get('from').touched}" placeholder="From City"></ion-input>
 	    </ion-item>
 	  
 	    <ion-item>
 			<ion-label color="primary" position="stacked">To</ion-label>
-			<ion-input type="text" id="to" placeholder="To" name="to" [formControl]="complexForm.controls['to']" autocomplete="off"  [ngClass]="{'is-invalid':!complexForm.controls['to'].valid && complexForm.controls['to'].touched}" placeholder="To City"></ion-input>
+			<ion-input type="text" id="to" placeholder="To" name="to" formControlName="to" autocomplete="off"
+				[ngClass]="{'is-invalid':!complexForm.get('to').valid && complexForm.get('to').touched}" placeholder="To City"></ion-input>
 	    </ion-item>
 
 	    <ion-row style="height: 30px"></ion-row>

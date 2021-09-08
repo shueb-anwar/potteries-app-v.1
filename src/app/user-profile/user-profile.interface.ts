@@ -6,4 +6,5 @@ export interface IUserProfile {
     phoneNumber: string;
     role: string;
     uid: any;
+    key?: string;
 }

@@ -9,7 +9,7 @@
 <ion-header *ngIf="page == 'update'">
 	<ion-toolbar color="primary">
 		<ion-buttons slot="end">
-			<ion-button (click)="dismiss()">Close</ion-button>
+			<ion-button (click)="dismiss(null)">Close</ion-button>
 		</ion-buttons>
 		<ion-title>Update Bus Detail</ion-title>
 	</ion-toolbar>
@@ -20,59 +20,59 @@
 		<ion-item>
 			<ion-label color="primary" position="stacked">Driver Name</ion-label>
 			<ion-input type="text" id="name" placeholder="Enter Driver Name" name="name"
-				[formControl]="complexForm.controls['name']" autocomplete="off"
-				[ngClass]="{'is-invalid':!complexForm.controls['name'].valid && complexForm.controls['name'].touched}"
+				formControlName="name" autocomplete="off"
+				[ngClass]="{'is-invalid': !complexForm.get('name').valid && complexForm.get('name').touched}"
 				placeholder="Driver Name"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label color="primary" position="stacked">Contact Number</ion-label>
 			<ion-input type="text" id="contact" placeholder="Contact Number" name="contact"
-				[formControl]="complexForm.controls['contact']" autocomplete="off"
-				[ngClass]="{'is-invalid':!complexForm.controls['contact'].valid && complexForm.controls['contact'].touched}"
+				formControlName="contact" autocomplete="off"
+				[ngClass]="{'is-invalid': !complexForm.get('contact').valid && complexForm.get('contact').touched}"
 				placeholder="Contact Number"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label color="primary" position="stacked">Registration Number</ion-label>
 			<ion-input type="text" id="registration" placeholder="Enter Registration" name="registration"
-				[formControl]="complexForm.controls['registration']" autocomplete="off"
-				[ngClass]="{'is-invalid':!complexForm.controls['registration'].valid && complexForm.controls['registration'].touched}"
+				formControlName="registration" autocomplete="off"
+				[ngClass]="{'is-invalid': !complexForm.get('registration').valid && complexForm.get('registration').touched}"
 				placeholder="Registration NUmber"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label color="primary" position="stacked">Fare</ion-label>
 			<ion-input type="number" id="fare" placeholder="Enter Fare Detail" name="registration"
-				[formControl]="complexForm.controls['fare']" autocomplete="off"
-				[ngClass]="{'is-invalid':!complexForm.controls['fare'].valid && complexForm.controls['fare'].touched}">
+				formControlName="fare" autocomplete="off"
+				[ngClass]="{'is-invalid': !complexForm.get('fare').valid && complexForm.get('fare').touched}">
 			</ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label color="primary" position="stacked">Seating Capacity</ion-label>
 			<ion-input type="number" id="capacity" placeholder="Enter Seating Capacity" name="registration"
-				[formControl]="complexForm.controls['capacity']" autocomplete="off"
-				[ngClass]="{'is-invalid':!complexForm.controls['capacity'].valid && complexForm.controls['capacity'].touched}">
+				formControlName="capacity" autocomplete="off"
+				[ngClass]="{'is-invalid': !complexForm.get('capacity').valid && complexForm.get('capacity').touched}">
 			</ion-input>
 		</ion-item>
 
 		<ion-list formArrayName="routeDetail">
-			<ion-card *ngFor="let line_item of complexForm.get('routeDetail').controls; let routeIndex=index">
+			<ion-card *ngFor="let line_item of getRoute().controls; let routeIndex=index">
 				<ion-item color="secondary" lines="none">
 					<ion-icon name="bus-outline" slot="start"></ion-icon>
 					<ion-label><strong>Route Information</strong></ion-label>
 					<ion-icon name="close" slot="end" (click)="removeRoute(routeIndex)"
-						*ngIf="complexForm.controls.routeDetail.controls.length > 1"></ion-icon>
+						*ngIf="getRoute().controls.length > 1"></ion-icon>
 				</ion-item>
 				<div [formGroupName]="routeIndex">
 					<!-- <ion-input type="text" formControlName="id" value="{{i+1}}"></ion-input> -->
 					<ion-item>
 						<ion-label color="primary" position="stacked">From</ion-label>
 						<ion-input type="text" id="from" placeholder="From" formControlName="from"
-							[ngClass]="{'is-invalid':(!line_item.controls['from'].valid && line_item.controls['from'].touched) }"
+							[ngClass]="{'is-invalid':(!line_item.get('from').valid && line_item.get('from').touched) }"
 							placeholder="City"></ion-input>
 					</ion-item>
 					<ion-item>
 						<ion-label color="primary" position="stacked">To</ion-label>
 						<ion-input type="text" id="to" placeholder="To" formControlName="to"
-							[ngClass]="{'is-invalid':!line_item.controls['to'].valid && line_item.controls['to'].touched}"
+							[ngClass]="{'is-invalid':!line_item.get('to').valid && line_item.get('to').touched}"
 							placeholder="City"></ion-input>
 					</ion-item>
 					<!-- <ion-item>
@@ -88,8 +88,8 @@
 							<ion-card [formGroupName]="stopIndex">
 								<ion-item color="light" detail (click)="setExpanded(stopIndex, routeIndex)" *ngIf="!getExpanded(stopIndex, routeIndex)">
 									<ion-icon name="map-outline" slot="start"></ion-icon>
-									<ion-label>{{stop.controls['location'].value}}</ion-label>
-									<span slot="end">{{stop.controls['time'].value | militaryTime}}</span>
+									<ion-label>{{stop.get('location').value}}</ion-label>
+									<span slot="end">{{stop.get('time').value | militaryTime}}</span>
 								</ion-item>
 								<div *ngIf="getExpanded(stopIndex, routeIndex)">
 									<ion-item color="light" lines="none" (click)="setExpanded(null, null)">
@@ -100,14 +100,14 @@
 									<ion-item>
 										<ion-label color="primary" position="stacked">Location</ion-label>
 										<ion-input type="text" placeholder="Location" formControlName="location"
-											[ngClass]="{'is-invalid':(!stop.controls['location'].valid && stop.controls['location'].touched) }"
+											[ngClass]="{'is-invalid':(!stop.get('location').valid && stop.get('location').touched) }"
 											placeholder="Location"></ion-input>
 									</ion-item>
 									<ion-item>
 										<ion-label position="stacked">Time</ion-label>
 										<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" name="t1" autocomplete="off"
 											formControlName="time"
-											[ngClass]="{'is-invalid':!stop.controls['time'].valid && stop.controls['time'].touched}">
+											[ngClass]="{'is-invalid':!stop.get('time').valid && stop.get('time').touched}">
 										</ion-datetime>
 									</ion-item>
 								</div>

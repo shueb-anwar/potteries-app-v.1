@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PaymentGatewayService } from '../payment.service';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 import { LocationService } from '../location.service';
 
 @Component({
@@ -21,22 +21,23 @@ export class SearchBusPage implements OnInit {
     public paymentgateway: PaymentGatewayService,
     public fb: FormBuilder,
     public router: Router,
-    private geolocation: Geolocation,
     private locationService: LocationService) { 
 
-    this.geolocation.getCurrentPosition().then((resp) => {
-      var self = this;
 
-      this.locationService.getCurrentCity(resp).subscribe(function(res){
+    const getCurrentPosition = async () => {
+      var self = this;
+      const coordinates = await Geolocation.getCurrentPosition();
+    
+      this.locationService.getCurrentCity(coordinates).subscribe(function(res){
         // self.complexForm.patchValue({
         //   from: res.results[0].address_components[0].long_name
         // });
 
         self.currentLocation = res.results[0].formatted_address
       });
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+    }
+
+    getCurrentPosition();
 
   	this.complexForm = fb.group({
       from: ['Amroha', Validators.required],

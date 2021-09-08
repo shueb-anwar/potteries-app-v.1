@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "103808483283",
+    "firebase_url": "https://tourlin-8ecee.firebaseio.com",
+    "project_id": "tourlin-8ecee",
+    "storage_bucket": "tourlin-8ecee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103808483283:android:b60746e71c5c1b7a",
+        "android_client_info": {
+          "package_name": "io.ionic.tourlin_v0004"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103808483283-ti8kl894qag51998vj3bekef5rme2e9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjF_yXd4_ZibhYrevpoYCnyqetE_G8fKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103808483283-ti8kl894qag51998vj3bekef5rme2e9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

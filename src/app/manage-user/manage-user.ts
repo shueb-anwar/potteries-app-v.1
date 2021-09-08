@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserProvider } from '../providers/firebase/user'; 
 import { IUserProfile } from '../user-profile/user-profile.interface';
-import { map } from 'lodash';
-
 @Component({
   selector: 'app-manage-user',
   templateUrl: './manage-user.html',

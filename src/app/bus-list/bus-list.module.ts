@@ -10,9 +10,8 @@ import { BusListPage } from './bus-list.page';
 import { BookingsComponent } from './bookings/bookings.component';
 import { UpdateBusComponent } from './update-bus/update-bus.component';
 import { RegisterBusComponent } from './register-bus/register-bus.component';
-
+import { BusDetailComponent } from './bus-detail/bus-detail.component';
 import { ApplicationPipesModule } from '../application-pipes.module';
-import { StopComponent } from './stop/stop.component';
 
 const routes: Routes = [
   {
@@ -42,6 +41,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ApplicationPipesModule
   ],
-  declarations: [BusListPage, BookingsComponent, UpdateBusComponent, RegisterBusComponent, StopComponent]
+  declarations: [
+    BusListPage, 
+    BookingsComponent,
+    UpdateBusComponent,
+    RegisterBusComponent,
+    BusDetailComponent]
 })
 export class BusListPageModule {}

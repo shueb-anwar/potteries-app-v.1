@@ -20,9 +20,8 @@
       </ion-select>
     </ion-item>
     <ion-searchbar
-      [(ngModel)]="myInput"
       (ionInput)="getItems($event)"
-      [showCancelButton]="true" [ngModelOptions]="{standalone: true}">
+      showCancelButton="always">
     </ion-searchbar>
     <ion-grid>
       <ion-row class="head">

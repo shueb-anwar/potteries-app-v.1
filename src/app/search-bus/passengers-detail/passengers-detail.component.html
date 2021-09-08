@@ -46,26 +46,29 @@
 			<ion-datetime displayFormat="DD/MMM/YYYY" min="{{today}}" max="{{tomorrow}}" name="t1" autocomplete="off" formControlName="date" [ngClass]="{'is-invalid':!complexForm.controls['date'].valid && complexForm.controls['date'].touched}"></ion-datetime>
 		</ion-item>
 	    <ion-list formArrayName="passengers">
-	      <div *ngFor="let line_item of complexForm.controls.passengers.controls; let i=index">
+	      <div *ngFor="let line_item of getPassengers().controls; let i=index">
 	        <div [formGroupName]= "i">
 						<ion-item color="light" lines="none">
 							<ion-icon name="person-outline" slot="start"></ion-icon>
 							<ion-label>Passenger {{i+1}}</ion-label>
-							<ion-button color="danger" icon-only fill="outline" slot="end" (click)="removePassenger(i)" *ngIf="complexForm.controls.passengers.controls.length > 1 && i > 0">
+							<ion-button color="danger" icon-only fill="outline" slot="end" (click)="removePassenger(i)" *ngIf="getPassengers().controls.length > 1 && i > 0">
 	              <ion-icon name="trash"></ion-icon>
 	            </ion-button>
 						</ion-item>
 	          <ion-item>
 	            <ion-label color="primary" position="stacked">Name</ion-label>
-	            <ion-input type="text" id="name" placeholder="From" formControlName="name" [ngClass]="{'is-invalid':!complexForm.controls.passengers.controls[i].controls['name'].valid && complexForm.controls.passengers.controls[i].controls['name'].touched}" placeholder="Name"></ion-input>
+	            <ion-input type="text" id="name" placeholder="From" formControlName="name"
+								[ngClass]="{'is-invalid':!line_item.get('name').valid && line_item.get('name').touched}" placeholder="Name"></ion-input>
 	          </ion-item>
 	          <ion-item>
 	            <ion-label color="primary" position="stacked">age</ion-label>
-	            <ion-input type="number" id="age" placeholder="age" formControlName="age" [ngClass]="{'is-invalid':!complexForm.controls.passengers.controls[i].controls['age'].valid && complexForm.controls.passengers.controls[i].controls['age'].touched}" placeholder="Age"></ion-input>
+	            <ion-input type="number" id="age" placeholder="age" formControlName="age"
+								[ngClass]="{'is-invalid':!line_item.get('age').valid && line_item.get('age').touched}" placeholder="Age"></ion-input>
 	          </ion-item>
 	          <ion-item>
 	            <ion-label>Gender</ion-label>
-	            <ion-select displayFormat="h:mm A" pickerFormat="h mm A" name="t1" autocomplete="off" formControlName="gender" [ngClass]="{'is-invalid':!complexForm.controls.passengers.controls[i].controls['gender'].valid && complexForm.controls.passengers.controls[i].controls['gender'].touched}">
+	            <ion-select displayFormat="h:mm A" pickerFormat="h mm A" name="t1" autocomplete="off" formControlName="gender"
+								[ngClass]="{'is-invalid':!line_item.get('gender').valid && line_item.get('gender').touched}">
 	              <ion-select-option value="male">Male</ion-select-option>
 	              <ion-select-option value="female">Female</ion-select-option>
 	              <ion-select-option value="others">Other</ion-select-option>
@@ -79,7 +82,7 @@
 					<ion-card-subtitle>Estimated Fare</ion-card-subtitle>
 				</ion-card-header>
 				<ion-card-content>
-					<p>Total Fare: Rs.{{this.bus.fare * complexForm.controls.passengers.length}}/- <small>Need to pay directly in bus.</small></p>
+					<p>Total Fare: Rs.{{totalFare}}/- <small>Need to pay directly in bus.</small></p>
 					<p>Booking Changes: Rs.{{totalBookingCharges}}/-</p>
 				</ion-card-content>
 			</ion-card>

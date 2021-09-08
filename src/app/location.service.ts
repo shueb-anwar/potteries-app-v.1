@@ -18,7 +18,7 @@ export class LocationService {
 
 	constructor(public http: HttpClient) { }
 
-	getCurrentCity(payload): Observable<any> {
+	getCurrentCity(coordinates): Observable<any> {
 		const httpOptions = {
 			headers: new HttpHeaders({
 			  'Content-Type':  'text/html'
@@ -27,7 +27,7 @@ export class LocationService {
 
 	    return this.http.get(this.host, {
 	    	params: {
-	    		latlng: [payload.coords.latitude, payload.coords.longitude].join(','),
+	    		latlng: [coordinates.coords.latitude, coordinates.coords.longitude].join(','),
 	    		sensor: 'true',
 	    		result_type: 'administrative_area_level_2',
 	    		key: 'AIzaSyDJuAYKilKlNPjDMfz3sJOjyPil7ompRqw'

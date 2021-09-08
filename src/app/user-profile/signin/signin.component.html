@@ -11,7 +11,7 @@
 	<h1>Enter mobile number to get started</h1>
 	<form [formGroup]="complexForm" novalidate="">
 	    <ion-item>
-	      <ion-input type="number" id="mobile" placeholder="Mobile" name="mobile" [formControl]="complexForm.controls['mobile']" autocomplete="off"></ion-input>
+	      <ion-input type="number" id="mobile" placeholder="Mobile" name="mobile" formControlName="mobile" autocomplete="off"></ion-input>
 	    </ion-item>
 	    <ion-button expand="block" color="secondary" (click)="submitForm()">
 			Submit <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" slot="end"></ion-icon>
@@ -21,6 +21,4 @@
 	</form>
 </ion-content>
 
-<ion-footer>
-	
-</ion-footer>
+<ion-footer></ion-footer>

@@ -30,6 +30,7 @@ export class PassengersDetailComponent implements OnInit {
   public totalBookingCharges: number = 5;
   public url: any;
   public tempPayload: any;
+  public totalFare: number;
 	// @ViewChild('mySelect') selectRef: Select;
 
 	constructor(
@@ -111,6 +112,7 @@ export class PassengersDetailComponent implements OnInit {
 
         this.complexForm.get('passengers').valueChanges.subscribe(passengers => {
           this.totalBookingCharges = this.bookingCharges * passengers.length;
+          this.totalFare = this.bus.fare * passengers.length;
 
           this.processTransactionForm.patchValue({
             TXN_AMOUNT: this.totalBookingCharges.toFixed(2)
@@ -155,6 +157,10 @@ export class PassengersDetailComponent implements OnInit {
 
     control.removeAt(i);
   }
+
+  getPassengers() {
+		return this.complexForm.get('passengers') as FormArray;
+	}
 
   submitForm(form) {
     var seatBooked = 0, payload = form.value, availableSeatCapacity;

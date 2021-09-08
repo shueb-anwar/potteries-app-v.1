@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-
 import { NavParams, ModalController } from '@ionic/angular';
-
 import { BusProvider } from './../../providers/firebase/bus';
+import { IBus } from '../bus.interface';
 
 @Component({
   selector: 'app-bus-detail',
@@ -10,7 +9,7 @@ import { BusProvider } from './../../providers/firebase/bus';
   styleUrls: ['./bus-detail.component.scss'],
 })
 export class BusDetailComponent {
-	public bus: {};
+	public bus: IBus;
 
   constructor(
   	public busProvider: BusProvider,

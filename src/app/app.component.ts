@@ -3,12 +3,14 @@ import { Component, Inject } from '@angular/core';
 import { Platform, AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+
 import { UserProvider } from './providers/firebase/user'; 
 import { IUserProfile } from './user-profile/user-profile.interface';
+import { first } from 'rxjs/operators';
 import firebase from 'firebase/app';
 
 @Component({
@@ -32,7 +34,6 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
@@ -43,10 +44,14 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  initializeApp() {
+  isLoggedIn() {
+    return this.auth.authState.pipe(first()).toPromise();
+  }
+
+  async initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      SplashScreen.hide();
     });
 
     this.auth.authState.subscribe(user => {
