@@ -12,23 +12,21 @@
 	    <ion-list-header>
 	    	<ion-label>My Booking History</ion-label>
 	    </ion-list-header>
-	    <ion-item *ngFor="let item of bookings; let i = index" color="{{getColor(item.status)}}">
-	    	<div class="bus-detail">
-	    		<p>{{ item.date | date: 'longDate' }}, {{item.time | militaryTime }}</p>
-	    		<div class="route">
-		    		<p>From: {{ item.from }}</p>
-		    		<p>To: {{ item.to }}</p>
-		    	</div>
-	    		<ion-chip *ngFor="let passenger of item.passengers; let i = index" color="tertiary">
-	    			<ion-icon name="contact" color="tertiary"></ion-icon>
-	    			<ion-label>{{ passenger.name }}</ion-label>
-				</ion-chip>
-	    	</div>
+	    <ion-item text-wrap *ngFor="let item of bookings; let i = index" color="{{getColor(item.status)}}">
+				<ion-icon name="bus" slot="start"></ion-icon>
+	    	<ion-label>
+					<h2>Date: {{ item.date | date: 'longDate' }}, {{item.time | militaryTime }}</h2>
+					<p>From: {{ item.from }} To: {{ item.to }}</p>
+					<div *ngIf="drawerId == i + 1">
+						<p>Passengers:</p>
+						<ion-label *ngFor="let passenger of item.passengers; let i = index">{{ passenger.name }}</ion-label>
+					</div>
+				</ion-label>
+				<ion-button slot="end" fill="none" (click)="drawerId = i + 1">
+					<ion-icon slot="icon-only" name="chevron-down-outline"></ion-icon>
+				</ion-button>
 
-	    	<!-- <ion-button fill="outline" slot="end" (click)="moreDetail(item.index)">
-	    		<ion-icon name="more" slot="start"></ion-icon>
-	    		Bus Detail
-			</ion-button> -->
+				
 	    </ion-item>
 
 		<ion-item *ngIf="result && !bookings.length">

@@ -1,6 +1,6 @@
 {
   "appId": "com.getcapacitor.pottries",
-  "appName": "potteries-app",
+  "appName": "Potteries",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

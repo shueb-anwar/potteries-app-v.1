@@ -18,9 +18,9 @@
 	<form [formGroup]="complexForm" novalidate="">
 		<ion-list-header color="light" lines="full">
 			<ion-label>
-				{{this.selectedRoute.from}}
+				{{this.bus.from}}
 				<ion-icon name="arrow-forward-outline"></ion-icon>
-				{{this.selectedRoute.to}} 
+				{{this.bus.to}} 
 				@
 				{{this.selectedRoute.time | militaryTime}}
 			</ion-label>
@@ -59,11 +59,6 @@
 	            <ion-label color="primary" position="stacked">Name</ion-label>
 	            <ion-input type="text" id="name" placeholder="From" formControlName="name"
 								[ngClass]="{'is-invalid':!line_item.get('name').valid && line_item.get('name').touched}" placeholder="Name"></ion-input>
-	          </ion-item>
-	          <ion-item>
-	            <ion-label color="primary" position="stacked">age</ion-label>
-	            <ion-input type="number" id="age" placeholder="age" formControlName="age"
-								[ngClass]="{'is-invalid':!line_item.get('age').valid && line_item.get('age').touched}" placeholder="Age"></ion-input>
 	          </ion-item>
 	          <ion-item>
 	            <ion-label>Gender</ion-label>

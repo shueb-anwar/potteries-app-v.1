@@ -16,7 +16,8 @@ export class MyBookingsComponent {
 	public user: any;
 	public bookings: any;
 	public result: boolean = false;
-
+	public drawerId = 0;
+	
 	constructor(
 		public busProvider: BusProvider,
 		public bookingProvider: BookingProvider,

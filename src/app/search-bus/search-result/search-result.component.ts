@@ -14,6 +14,7 @@ export class SearchResultComponent implements OnInit {
 	buses: any[] = [];
   	route: any = {};
   	result: boolean = false;
+		showRouteDrawer = 0;
 
   	constructor(
   		public busProvider: BusProvider,
@@ -37,9 +38,11 @@ export class SearchResultComponent implements OnInit {
 				var route = find(item.routeDetail, (item: any) => {
 					var t1 = find(item.stopDetail, (stop, index) => {
 						stop.index = index;
+
 						return stop.location.toLowerCase() == formData.from.toLowerCase();
 					}), t2 = find(item.stopDetail, (stop, index) => {
 						stop.index = index;
+
 						return stop.location.toLowerCase() == formData.to.toLowerCase();
 					});
 
@@ -68,9 +71,15 @@ export class SearchResultComponent implements OnInit {
 		})
 	}
 
+	viewRoot() {
+
+	}
+
 	bookBus(bus) {
+		const data = {...bus, ...this.route};
+
 		this.router.navigate(['search-bus/passengers'], {queryParams: {
-			bus: JSON.stringify(bus)
+			bus: JSON.stringify(data)
 		} });
 
 		// var date = new Date(data.date);

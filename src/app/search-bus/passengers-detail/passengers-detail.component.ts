@@ -141,7 +141,6 @@ export class PassengersDetailComponent implements OnInit {
   initPassengers(name?: any, gender?: any){
     return this.fb.group({
       name: [name , Validators.required],
-      age: [null, Validators.required],
       gender: [gender, Validators.required],
       seat: [1]
     });;
@@ -204,8 +203,8 @@ export class PassengersDetailComponent implements OnInit {
           }
         } else {
           if(payload.passengers.length > 1) {
-            forEach(payload.passengers, function(item, index) {
-              item.seat = index + 1;
+            forEach(payload.passengers, function(passenger, index) {
+              passenger.seat = index + 1;
             });
           }
 

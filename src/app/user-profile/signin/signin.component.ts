@@ -63,7 +63,7 @@ export class SigninComponent implements OnInit {
   	if(this.complexForm.valid) {
   		var self = this;
 
-  		this.auth.signInWithPhoneNumber(`+44${this.complexForm.controls['mobile'].value}`, (<any>window).recaptchaVerifier)
+  		this.auth.signInWithPhoneNumber(`+91${this.complexForm.controls['mobile'].value}`, (<any>window).recaptchaVerifier)
 	    	.then(async function (confirmationResult) {
 	        	
 	        	const modal = await self.modalCtrl.create({
