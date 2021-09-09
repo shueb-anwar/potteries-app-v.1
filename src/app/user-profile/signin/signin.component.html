@@ -8,13 +8,14 @@
 	<div class="logo">
 	    <img src="./assets/imgs/potteries-icon.svg" width="100" />    
 	</div>
-	<h1>Enter mobile number to get started</h1>
+	<h1>Enter your Phone Number</h1>
+	<p>We will send you the 6 digit verification code.</p>
 	<form [formGroup]="complexForm" novalidate="">
 	    <ion-item>
-	      <ion-input type="number" id="mobile" placeholder="Mobile" name="mobile" formControlName="mobile" autocomplete="off"></ion-input>
+	      <ion-input type="number" id="mobile" placeholder="Enter Phone Number" name="mobile" formControlName="mobile" autocomplete="off"></ion-input>
 	    </ion-item>
 	    <ion-button expand="block" color="secondary" (click)="submitForm()">
-			Submit <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" slot="end"></ion-icon>
+			Generate OTP <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" slot="end"></ion-icon>
 	    </ion-button>
 	    
 	    <div id="recaptcha-container"></div>

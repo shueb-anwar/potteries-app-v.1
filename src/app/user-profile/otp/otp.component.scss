@@ -1,4 +1,9 @@
 app-otp {
+	h1 {
+		margin: 20px 0;
+		font-size: 20px;
+	}
+
 	form {
 		text-align: center;
 		padding: 50px 20px;
@@ -22,7 +27,7 @@ app-otp {
 	.button {
 		margin-left: 0;
 		margin-right: 0;
-		margin-top: 20px;
+		margin-top: 50px;
 		height: 49px;
 		--border-radius: 30px;
 	}

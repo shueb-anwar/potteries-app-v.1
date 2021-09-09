@@ -8,8 +8,8 @@
 <ion-content color="primary">
   <form #form="ngForm" (ngSubmit)="submit(form)" novalidate>
     <img src="/assets/imgs/otp.png" />
-    <h1>Enter OTP</h1>
-    <p>OTP has been sent to your mobile {{encryptedMobile}},<br>Please enter the same here to continue.</p>
+    <h1>OTP Verification</h1>
+    <p>Enter the OTP sent to {{encryptedMobile}}</p>
     <p *ngIf="timerValue">00.{{timerValue > 9 ? timerValue : '0'+timerValue}}</p>
     
     <ion-item>
@@ -17,7 +17,7 @@
     </ion-item>
 
     <ion-button color="secondary" type="submit" expand="block" slot="end" >
-      Confirm
+      Verify & Continue
       <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward"></ion-icon>
     </ion-button>
   </form>

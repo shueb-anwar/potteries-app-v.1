@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
+
 import { ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -61,44 +62,61 @@ export class SigninComponent implements OnInit {
 
   submitForm() {
   	if(this.complexForm.valid) {
-  		var self = this;
-
   		this.auth.signInWithPhoneNumber(`+91${this.complexForm.controls['mobile'].value}`, (<any>window).recaptchaVerifier)
-	    	.then(async function (confirmationResult) {
-	        	
-	        	const modal = await self.modalCtrl.create({
+	    	.then(async (confirmationResult) => {
+	        	const modal = await this.modalCtrl.create({
 		        	component: OtpComponent,
 		        	componentProps: {
-		        		mobile: self.complexForm.controls['mobile'].value,
+		        		mobile: this.complexForm.controls['mobile'].value,
 		        		confirmationResult: confirmationResult
 		        	}
 		        });
 
 		        modal.present();
 	    	})
-	    	.catch(function (error) {
+	    	.catch( (error) => {
 	    		console.log(error);   // Error; SMS not sent
-          // self.presentToast(error.message);
-
-          self.alertCtrl.create({
-            header: 'Something Wents Wrong',
-            message: 'We are facing logging in by phone number. Would you like to login by Facebook',
-            buttons: [
-              {
-                text: 'Cancel',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
+          if(error.code == 'auth/too-many-requests') {
+            this.alertCtrl.create({
+              header: 'Opps! Too many requests',
+              message: error.message,
+              buttons: [
+                {
+                  text: 'Close',
+                  role: 'cancel',
+                  handler: () => {
+                    console.log('Cancel clicked');
+                  }
                 }
-              },
-              {
-                text: 'Continue with facebook',
-                handler: () => {
-                  self.signInWithFacebook();
+              ]
+            }).then(alert => alert.present())
+          } else {
+            this.alertCtrl.create({
+              header: 'Something Wents Wrong',
+              message: 'We are facing logging in by phone number. Would you like to continue login by way',
+              buttons: [
+                {
+                  text: 'Cancel',
+                  role: 'cancel',
+                  handler: () => {
+                    console.log('Cancel clicked');
+                  }
+                },
+                {
+                  text: 'Continue with Google',
+                  handler: () => {
+                    this.signInWithGoogle();
+                  }
+                },
+                {
+                  text: 'Continue with facebook',
+                  handler: () => {
+                    this.signInWithFacebook();
+                  }
                 }
-              }
-            ]
-          }).then(alert => alert.present())
+              ]
+            }).then(alert => alert.present())
+          }
 	    	}); 
 	    }
     }  
@@ -113,39 +131,37 @@ export class SigninComponent implements OnInit {
     }
 
     signInGuest() {
-      this.auth.signInAnonymously()
-        .then(function(result) {
+      this.auth.signInAnonymously().then((result) => {
           console.log(result);
         })
-        .catch(function(error) {
-          var errorCode = error.code;
-          var errorMessage = error.message;
+        .catch((error) => {
+          console.log(error)
         });
     }
 
+    signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+      this.signInWithPopup(provider);
+    }
+
     signInWithFacebook() {
-      var self = this, provider = new firebase.auth.FacebookAuthProvider();
+      const provider = new firebase.auth.FacebookAuthProvider();
       provider.addScope('user_birthday');
-      
-      provider.setCustomParameters({
-        'display': 'popup'
-      });
+
+      this.signInWithPopup(provider);
+    }
+
+    signInWithPopup(provider) {
+      var self = this;
 
       this.auth.signInWithPopup(provider).then(function(result) {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        // var token = result.credential.accessToken;
-        // The signed-in user info.
         var user = result.user;
         console.log(user);
         self.router.navigate(['search-bus'], {});
       }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
+        console.log(error);
       });
     }
 
