@@ -79,12 +79,17 @@ export class OtpComponent implements OnInit {
   	var self = this;
 
     if(form.valid) {
-	    this.confirmationResult.confirm("" + this.otp).then(function (result) {
+	    this.confirmationResult.confirm("" + this.otp).then((result) => {
 	    	var user = result.user;
-        self.presentToast("Loged in");
-
-	    	self.router.navigate(['search-bus'], {});
-
+        
+        if(user.displayName) {
+          this.presentToast("Loged in");
+          this.router.navigate(['search-bus'], {});
+        } else {
+          this.presentToast("Please Update name in your profile")
+          this.router.navigate(['user-profile'], {});
+        }
+	    	
         self.modalController.dismiss();
 	    }).catch(function (error) {
 	    	if(error.code == "auth/invalid-verification-code") {

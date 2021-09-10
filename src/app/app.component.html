@@ -9,8 +9,8 @@
         </div>
         <ion-list>
           <ion-menu-toggle auto-hide="false">
-            <ion-item class="username" *ngIf="!user.displayName">
-              <h2>{{ user.phoneNumber }}</h2>
+            <ion-item class="username" *ngIf="!currentUser.displayName">
+              <h2>{{ currentUser.phoneNumber }}</h2>
               <ion-button fill="clear" slot="end" color="light">
                 <ion-icon name="create" slot="start"></ion-icon>
                 Set Display Name
@@ -19,10 +19,10 @@
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item class="username" *ngIf="user.displayName">
+            <ion-item class="username" *ngIf="currentUser.displayName">
               <div>
-                <h2>{{ user.displayName}}</h2>
-                <span class="label">{{ user.phoneNumber }}</span>
+                <h2>{{ currentUser.displayName}}</h2>
+                <span class="label">{{ currentUser.phoneNumber }}</span>
               </div>
             </ion-item>
           </ion-menu-toggle>

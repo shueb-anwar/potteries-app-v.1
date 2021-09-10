@@ -28,13 +28,16 @@ export class ManageUser implements OnInit {
   
   loadAllUsers() {
     this.userProvider.getItems().then( (res: IUserProfile[]) => {
+      console.log(res)
       this.users = res;
     });
   }
 
   updateRole(key, event) {
+    const payload = { role: event.target.value };
+
     if(event.target.value) {
-      this.userProvider.updateItem({role: event.target.value}, key);
+      this.userProvider.updateItem(payload, key);
     }
   }
 

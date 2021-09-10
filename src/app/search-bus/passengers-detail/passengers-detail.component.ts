@@ -25,7 +25,7 @@ export class PassengersDetailComponent implements OnInit {
 	public tomorrow: any;
   public customAlertOptions: any;
 	public selectedRoute: any;
-	public user: any;
+	public currentUser: any;
   public bookingCharges: number = 5;
   public totalBookingCharges: number = 5;
   public url: any;
@@ -52,9 +52,9 @@ export class PassengersDetailComponent implements OnInit {
           message: "You are changing your trip; Please make sure to pick the correct route."
         }
 
-        this.user = JSON.parse(localStorage.getItem('user'));
-        
-        if(isEmpty(this.user)) {
+        this.currentUser = JSON.parse(localStorage.getItem('user'));
+        console.log(this.currentUser);
+        if(isEmpty(this.currentUser)) {
           this.router.navigate(['search-bus'])
         }
 
@@ -64,13 +64,13 @@ export class PassengersDetailComponent implements OnInit {
         this.processTransactionForm = fb.group({
           MID: ['NEUutZ14422133875394'],
           ORDER_ID: [order_id],
-          CUST_ID: [this.user.uid],
+          CUST_ID: [this.currentUser.uid],
           INDUSTRY_TYPE_ID: ['Retail'],
           CHANNEL_ID: ['WAP'],
           TXN_AMOUNT: [this.totalBookingCharges],
           // WEBSITE: ['APPSTAGING'],
-          MOBILE_NO: [this.user.phoneNumber],
-          EMAIL: [this.user.email],
+          MOBILE_NO: [this.currentUser.phoneNumber],
+          EMAIL: [this.currentUser.email],
           CALLBACK_URL: ['https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID='+ order_id]
         });
 
@@ -92,9 +92,9 @@ export class PassengersDetailComponent implements OnInit {
           to: [this.bus.selectedRoute.to, Validators.required],
           time: [this.bus.selectedRoute.time, Validators.required],
   				passengers: fb.array([
-  					this.initPassengers(this.user.name)
+  					this.initPassengers(this.currentUser.name)
   				]),
-  				userid: [this.user.uid, Validators.required],
+  				userid: [this.currentUser.uid, Validators.required],
           status: 'PENDING'
   			});
 
@@ -119,10 +119,10 @@ export class PassengersDetailComponent implements OnInit {
           });
         });
         
-        this.userProvider.getItem(this.user.uid).then((res: {key: string, payload: IUserProfile}) => {
-          if(res && res.payload) {
+        this.userProvider.getItem(this.currentUser.uid).then((user: IUserProfile) => {
+          if(user) {
             var passenger = <FormArray>this.complexForm.controls['passengers'];
-            passenger.controls[0].patchValue({gender: res.payload.gender})
+            passenger.controls[0].patchValue({gender: user.gender})
           }
         })
 	    });

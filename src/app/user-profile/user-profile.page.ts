@@ -18,7 +18,7 @@ import { map } from 'lodash';
   styleUrls: ['./user-profile.page.scss'],
 })
 export class UserProfilePage {
-	public user: any;
+	public currentUser: any;
   public profileData: any;
 
 	public editName: boolean = false;
@@ -34,8 +34,8 @@ export class UserProfilePage {
       public userProvider: UserProvider,
       public userService: UserService
 	) {
-    this.getCurrentUser(this.auth).then(user => {
-      this.user = user;
+    this.getCurrentUser(this.auth).then(currentUser => {
+      this.currentUser = currentUser;
 
       this.fetchUserProfileData();
     })
@@ -50,24 +50,21 @@ export class UserProfilePage {
   }
 
   fetchUserProfileData() {
-    this.userProvider.getItem(this.user.uid).then((res: {payload: IUserProfile, key: string }) => {
-      if(res && res.payload) {
-        this.complexForm.patchValue(res.payload)
+    this.userProvider.getItem(this.currentUser.uid).then((user: IUserProfile) => {
+      if(user && user.gender) {
+        this.complexForm.patchValue({gender: user.gender})
       }
     });
   }
 
-  updateUserProfileData(payload) {
-    var self = this;
-
-    this.userProvider.getItem(self.user.uid).then(function (res: {payload: IUserProfile, key: string}) {
-      if(res && res.payload) {
-        var data = {...res.payload,  ...payload }
-        self.userProvider.updateItem(data, res.key);
+  updateUserProfileData(data) {
+    this.userProvider.getItem(this.currentUser.uid).then((user: IUserProfile ) => {
+      if(user) {
+        this.userProvider.updateItem( data , user.key);
       } else {
-        self.userProvider.addItem({
-          payload,
-          uid: self.user.uid
+        this.userProvider.addItem({
+          ...data,
+          uid: this.currentUser.uid
         })
       }
     });
@@ -87,7 +84,7 @@ export class UserProfilePage {
 
     const modal = await this.modalCtrl.create({
       component: UpdateUserNameComponent,
-      componentProps: { name: this.user.displayName }
+      componentProps: { name: this.currentUser.displayName }
     });
 
     await modal.present()
@@ -95,7 +92,7 @@ export class UserProfilePage {
     const { data } = await modal.onDidDismiss();
 
     if(data && data.name) {
-      this.user.updateProfile({
+      this.currentUser.updateProfile({
         displayName: data.name,
         photoURL: "https://example.com/jane-q-user/profile.jpg"
       }).then(function() {
@@ -110,13 +107,11 @@ export class UserProfilePage {
   }
 
   async editUserEmail() {
-    var self = this;
-
     const modal = await this.modalCtrl.create({
     	component: UpdateUserEmailComponent,
     	componentProps: {
-      		email: this.user.email,
-      		varified: (this.user.email && this.user.emailVerified)
+      		email: this.currentUser.email,
+      		varified: (this.currentUser.email && this.currentUser.emailVerified)
     	}
     });
 
@@ -124,18 +119,18 @@ export class UserProfilePage {
 
     const { data } = await modal.onDidDismiss();
 
-      if(data && data.email == 'varifyEmail') {
-        this.user.sendEmailVerification().then(function(res) {
-          self.presentToast('Email ID Verification Email sent. Please click on link to verify email')
-        });
-      } else if(data && data.email) {
-        this.user.updateEmail(data.email).then(function() {
-          self.presentToast("Email Updated successful")
-          self.editEmail = false;
-        }).catch(function(error) {
-          self.presentToast(error.message)
-        });
-      }
+    if(data && data.email == 'varifyEmail') {
+      this.currentUser.sendEmailVerification().then((res) => {
+        this.presentToast('Email ID Verification Email sent. Please click on link to verify email')
+      });
+    } else if(data && data.email) {
+      this.currentUser.updateEmail(data.email).then(() => {
+        this.presentToast("Email Updated successful")
+        this.editEmail = false;
+      }).catch((error) => {
+        this.presentToast(error.message)
+      });
+    }
   }
 
   async presentToast( msg ) {

@@ -22,7 +22,7 @@ export class UserProvider {
       ref.orderByChild("uid")
       .equalTo(uid)
       .once('value', function (res) {
-        resolve(map(res.val(), function(payload, index) { return { key: index, payload } })[0]);
+        resolve(map(res.val(), (payload, index) => { return { key: index, ...payload } })[0]);
       })
     });
   }

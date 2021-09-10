@@ -23,7 +23,7 @@ export class AppComponent {
   public appPages = [];
   public result: boolean = false;
 
-  public user: { displayName: string; email: string; phoneNumber: string; uid: any } = {
+  public currentUser: { displayName: string; email: string; phoneNumber: string; uid: any } = {
     displayName: null,
     email: null,
     phoneNumber: null,
@@ -54,23 +54,32 @@ export class AppComponent {
       SplashScreen.hide();
     });
 
-    this.auth.authState.subscribe(user => {
-      if (user) {
-        this.isAnonymous = user.isAnonymous;
-        this.user = user;
-        console.log(user);
+    this.auth.authState.subscribe(currentUser => {
+      if (currentUser) {
+        this.currentUser = currentUser;
+        
+        if(!currentUser.displayName) {
+          this.demoFunction();
+          this.router.navigate(['user-profile'], {});
+        }
 
-        this.userProvider.getItem(user.uid).then((res: { payload: IUserProfile, key: string }) => {
-          this.role = res.payload.role;
-          
+        this.userProvider.getItem(currentUser.uid).then((user: IUserProfile) => {
+          if(user && user.role) this.role = user.role;
+        
           localStorage.setItem('user', JSON.stringify({
-            email: user.email,
-            emailVerified: user.emailVerified,
-            name: user.displayName,
-            phoneNumber: user.phoneNumber,
+            email: currentUser.email,
+            emailVerified: currentUser.emailVerified,
+            name: currentUser.displayName,
+            phoneNumber: currentUser.phoneNumber,
             role: this.role,
-            uid: user.uid,
+            uid: currentUser.uid,
           }));
+
+          if(!currentUser.displayName) {
+            this.demoFunction();
+            
+            this.router.navigate(['user-profile'], {});
+          }
           
           this.initializeAppPages();
         });
@@ -94,11 +103,11 @@ export class AppComponent {
   
   demoFunction() {
     this.toastCtrl.create({
-      header: 'Confirm logout',
-      message: 'Do you really want to logout?',
+      header: 'Important',
+      message: 'Please update your name',
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Ok',
           role: 'cancel',
           handler: () => {
             console.log('Cancel clicked');

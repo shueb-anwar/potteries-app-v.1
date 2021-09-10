@@ -9,12 +9,12 @@
 
 <ion-content>
 	<form [formGroup]="complexForm" novalidate="">
-		<ion-list *ngIf="user">
+		<ion-list *ngIf="currentUser">
 			<ion-item (click)="editUserName()">
 			    <ion-label text-wrap>
 					<p>Name</p>
 					<ion-text color="primary">
-						<h2>{{user.displayName}}</h2>
+						<h2>{{currentUser.displayName}}</h2>
 					</ion-text>
 			    </ion-label>
 			    <ion-icon ios="ios-arrow-forward" md="ios-arrow-forward" item-right></ion-icon>
@@ -22,12 +22,12 @@
 
 			  <ion-item (click)="editUserEmail()">
 					<ion-label text-wrap>
-						<p *ngIf="user.email && user.emailVerified">Email</p>
-						<ion-text color="danger" *ngIf="user.email && !user.emailVerified">
+						<p *ngIf="currentUser.email && currentUser.emailVerified">Email</p>
+						<ion-text color="danger" *ngIf="currentUser.email && !currentUser.emailVerified">
 						<p>Verify Email</p>
 						</ion-text>
 						<ion-text color="primary">
-							<h2>{{user.email}}</h2>
+							<h2>{{currentUser.email}}</h2>
 						</ion-text>
 					</ion-label>
 					
