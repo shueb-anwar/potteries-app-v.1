@@ -12,6 +12,7 @@ import { UserProvider } from './providers/firebase/user';
 import { IUserProfile } from './user-profile/user-profile.interface';
 import { first } from 'rxjs/operators';
 import firebase from 'firebase/app';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +42,32 @@ export class AppComponent {
     public auth: AngularFireAuth,
     public userProvider: UserProvider
   ) {
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      if(this.router.url == '/search-bus') {
+        this.alertCtrl.create({
+          header: 'Confirm Exit',
+          message: 'Do you really want to exit App?',
+          buttons: [
+            {
+              text: 'No',
+              role: 'cancel',
+              handler: () => {
+                console.log('Cancel clicked');
+              }
+            },
+            {
+              text: 'Yes',
+              handler: () => {
+                App.exitApp();
+              }
+            }
+          ]
+        }).then(alert => alert.present());
+      } else {
+        this.router.navigate(['search-bus']);
+      }
+    });
+
     this.initializeApp();
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PaymentGatewayService } from '../payment.service';
 import { Geolocation } from '@capacitor/geolocation';
@@ -20,9 +21,13 @@ export class SearchBusPage implements OnInit {
   constructor(
     public paymentgateway: PaymentGatewayService,
     public fb: FormBuilder,
+    private platform: Platform,
     public router: Router,
     private locationService: LocationService) { 
-
+    
+      this.platform.backButton.subscribeWithPriority(9, () => {
+        console.log('On profile page')
+      });
 
     const getCurrentPosition = async () => {
       var self = this;
