@@ -32,7 +32,9 @@ export class PassengersDetailComponent implements OnInit {
   public tempPayload: any;
   public totalFare: number;
   public browserOptions: InAppBrowserOptions = {
-    location: 'no'
+    location: 'no',
+    fullscreen: 'no'
+
   };
   // @ViewChild('mySelect') selectRef: Select;
 
@@ -133,6 +135,12 @@ export class PassengersDetailComponent implements OnInit {
 
   async ngOnInit() {
     await this.storage.create();
+  }
+
+  changeDate(event) {
+    var date = new Date(event.target.value);
+
+    this.complexForm.get('date').setValue(this.parseDate(date));
   }
 
   parseDate(date) {

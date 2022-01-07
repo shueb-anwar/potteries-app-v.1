@@ -25,7 +25,6 @@ export class UpdateBusComponent extends RegisterBusComponent {
     navParams: NavParams
   ) {
     super(busProvider, fb, modalCtrl, toastCtrl);
-
     this.bus = navParams.get('bus');
 
     if(this.bus.routeDetail && this.bus.routeDetail.length){

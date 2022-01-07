@@ -15,36 +15,35 @@
 </ion-header>
 
 <ion-content>
+	<ion-list-header color="light" lines="full">
+		<ion-label>
+			{{this.bus.from}}
+			<ion-icon name="arrow-forward-outline"></ion-icon>
+			{{this.bus.to}} 
+			@
+			{{this.selectedRoute.time | militaryTime}}
+		</ion-label>
+		<ion-button fill="outline" size="small" [routerLink]="['/search-bus']">
+			<ion-icon slot="start"  name="refresh"></ion-icon>
+			Change Search
+		</ion-button>
+		<!-- <ion-button fill="outline" color="secondary" size="small" (click)="mySelect.open()">
+			<ion-icon slot="start"  name="refresh"></ion-icon>
+			Change Route
+		</ion-button> -->
+	</ion-list-header>
+	<ion-item>
+		<ion-label>Date</ion-label>
+		<ion-datetime displayFormat="DD/MMM/YYYY" min="{{today}}" max="{{tomorrow}}" name="t1" autocomplete="off" value="{{today}}"
+		[ngClass]="{'is-invalid':!complexForm.controls['date'].valid && complexForm.controls['date'].touched}" (ionChange)="changeDate($event)"></ion-datetime>
+	</ion-item>
 	<form [formGroup]="complexForm" novalidate="">
-		<ion-list-header color="light" lines="full">
-			<ion-label>
-				{{this.bus.from}}
-				<ion-icon name="arrow-forward-outline"></ion-icon>
-				{{this.bus.to}} 
-				@
-				{{this.selectedRoute.time | militaryTime}}
-			</ion-label>
-			<ion-button fill="outline" size="small" [routerLink]="['/search-bus']">
-			  <ion-icon slot="start"  name="refresh"></ion-icon>
-			  Change Search
-			</ion-button>
-			<!-- <ion-button fill="outline" color="secondary" size="small" (click)="mySelect.open()">
-			  <ion-icon slot="start"  name="refresh"></ion-icon>
-			  Change Route
-			</ion-button> -->
-		</ion-list-header>
-
 		<!-- <ion-item [hidden]=true>
 			<ion-label>Select Route</ion-label>
 			<ion-select formControlName="route" #mySelect interface="alert" [interfaceOptions]="customAlertOptions" ok-text="Select" value="{{selectedRoute.id}}">
 			  <ion-select-option *ngFor="let route of bus.routeDetail; let i=index" value="{{route.id}}">From {{route.from}} to {{route.to }} @ {{route.time | militaryTime}}</ion-select-option>
 			</ion-select>
 		</ion-item> -->
-
-		<ion-item>
-			<ion-label>Date</ion-label>
-			<ion-datetime displayFormat="DD/MMM/YYYY" min="{{today}}" max="{{tomorrow}}" name="t1" autocomplete="off" formControlName="date" [ngClass]="{'is-invalid':!complexForm.controls['date'].valid && complexForm.controls['date'].touched}"></ion-datetime>
-		</ion-item>
 	    <ion-list formArrayName="passengers">
 	      <div *ngFor="let line_item of getPassengers().controls; let i=index">
 	        <div [formGroupName]= "i">

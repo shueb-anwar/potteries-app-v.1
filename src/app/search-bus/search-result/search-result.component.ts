@@ -39,11 +39,11 @@ export class SearchResultComponent implements OnInit {
 					var t1 = find(item.stopDetail, (stop, index) => {
 						stop.index = index;
 
-						return stop.location.toLowerCase() == formData.from.toLowerCase();
+						return stop.location.toLowerCase().includes(formData.from.toLowerCase());
 					}), t2 = find(item.stopDetail, (stop, index) => {
 						stop.index = index;
 
-						return stop.location.toLowerCase() == formData.to.toLowerCase();
+						return stop.location.toLowerCase().includes(formData.to.toLowerCase());
 					});
 
 					if( t1 && t2 && t1.index < t2.index) {

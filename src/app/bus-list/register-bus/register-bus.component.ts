@@ -26,12 +26,12 @@ export class RegisterBusComponent {
 	    public toastCtrl: ToastController
 	) {
 		this.complexForm = fb.group({
-			name: ["John Deo", Validators.required],
+			name: [null, Validators.required],
 			uid: [firebase.auth().currentUser.uid, Validators.required],
-			registration: ["UP 23 T d1234", Validators.compose([Validators.required, Validators.maxLength(20)])],
+			registration: [null, Validators.compose([Validators.required, Validators.maxLength(20)])],
 			lat: [null],
 			long: [null],
-			contact: ["9560834202", Validators.compose([Validators.required, Validators.maxLength(20)])],
+			contact: ["", Validators.compose([Validators.required, Validators.maxLength(20)])],
 			fare: [0, Validators.compose([Validators.required])],
 			capacity: [0, Validators.compose([Validators.required])],
 			routeDetail: fb.array([])
